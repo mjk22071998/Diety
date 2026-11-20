@@ -34,6 +34,7 @@ export class DietitianLevelProfile {
   private _onTimeDeliveryRate: number;
   private _totalEarnings: Money;
   private _strikesCount: number;
+  private readonly _strikeReasons: string[] = [];
   private _isBiddingSuspended: boolean;
   private _gracePeriodStartedAt: Date | null = null;
 
@@ -78,6 +79,10 @@ export class DietitianLevelProfile {
 
   public get strikesCount(): number {
     return this._strikesCount;
+  }
+
+  public get strikeReasons(): readonly string[] {
+    return Object.freeze([...this._strikeReasons]);
   }
 
   public get isBiddingSuspended(): boolean {
@@ -150,6 +155,7 @@ export class DietitianLevelProfile {
     }
 
     this._strikesCount++;
+    this._strikeReasons.push(reason);
 
     if (this._strikesCount === 2) {
       // Strike 2: Demoted immediately to NEW tier

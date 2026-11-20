@@ -74,9 +74,9 @@ describe('Task 2.1: Domain Value Objects (Pure TDD)', () => {
       const money = Money.fromCents(10000, 'USD');
       const splits = money.split(3);
       expect(splits).toHaveLength(3);
-      expect(splits[0].cents).toBe(3334);
-      expect(splits[1].cents).toBe(3333);
-      expect(splits[2].cents).toBe(3333);
+      expect(splits[0]?.cents).toBe(3334);
+      expect(splits[1]?.cents).toBe(3333);
+      expect(splits[2]?.cents).toBe(3333);
       const total = splits.reduce((acc, m) => acc.add(m), Money.zero('USD'));
       expect(total.cents).toBe(10000);
     });

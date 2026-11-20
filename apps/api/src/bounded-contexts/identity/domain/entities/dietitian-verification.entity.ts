@@ -17,7 +17,7 @@ export interface PathwayALicenseProps {
   licenseNumber: string;
   jurisdiction: string;
   licenseExpiryDate: Date;
-  licenseDocumentId: string;
+  licenseDocumentId?: string | undefined;
 }
 
 export interface PathwayBDegreeProps {
@@ -25,7 +25,7 @@ export interface PathwayBDegreeProps {
   degreeTitle: string;
   institution: string;
   graduationYear: number;
-  degreeDocumentId: string;
+  degreeDocumentId?: string | undefined;
 }
 
 export interface AiSimulationExamResult {
@@ -49,22 +49,22 @@ export class DietitianVerification {
   private _status: VerificationStatus;
 
   // Pathway A fields
-  public readonly licenseNumber?: string;
-  public readonly jurisdiction?: string;
-  public readonly licenseExpiryDate?: Date;
-  public readonly licenseDocumentId?: string;
+  public readonly licenseNumber?: string | undefined;
+  public readonly jurisdiction?: string | undefined;
+  public readonly licenseExpiryDate?: Date | undefined;
+  public readonly licenseDocumentId?: string | undefined;
 
   // Pathway B fields
-  public readonly degreeTitle?: string;
-  public readonly institution?: string;
-  public readonly graduationYear?: number;
-  public readonly degreeDocumentId?: string;
-  private _examScore?: number;
-  private _allergenViolations?: number;
+  public readonly degreeTitle?: string | undefined;
+  public readonly institution?: string | undefined;
+  public readonly graduationYear?: number | undefined;
+  public readonly degreeDocumentId?: string | undefined;
+  private _examScore?: number | undefined;
+  private _allergenViolations?: number | undefined;
 
-  private _reviewNotes?: string;
+  private _reviewNotes?: string | undefined;
   public readonly createdAt: Date;
-  private _reviewedAt?: Date;
+  private _reviewedAt?: Date | undefined;
 
   private constructor(
     id: string,
@@ -140,6 +140,14 @@ export class DietitianVerification {
 
   public get allergenViolations(): number | undefined {
     return this._allergenViolations;
+  }
+
+  public get reviewNotes(): string | undefined {
+    return this._reviewNotes;
+  }
+
+  public get reviewedAt(): Date | undefined {
+    return this._reviewedAt;
   }
 
   public isApprovedForBidding(): boolean {
