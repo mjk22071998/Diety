@@ -65,6 +65,7 @@
 ---
 
 ### Phase 1: Monorepo Scaffolding, Shared Contracts, & Docker Infrastructure
+> **Git Work Branch:** `feat/monorepo-scaffolding-shared-contracts` (Branch from `main`)
 
 #### Task 1.1: Turborepo & pnpm Workspace Scaffolding
 **Files:**
@@ -118,6 +119,7 @@
 ---
 
 ### Phase 2: Core Domain Entities, Value Objects, & Invariants (Pure TDD)
+> **Git Work Branch:** `feat/domain-entities-and-invariants` (Branch from `main`)
 
 #### Task 2.1: Domain Value Objects
 **Files:**
@@ -174,6 +176,7 @@
 ---
 
 ### Phase 3: Infrastructure Adapters & Persistence Layer
+> **Git Work Branch:** `feat/infra-persistence-adapters` (Branch from `main`)
 
 #### Task 3.1: Prisma 7 Relational Database Schema & Migrations
 **Files:**
@@ -229,6 +232,7 @@
 ---
 
 ### Phase 4: Application Use Cases & NestJS 12 API / Signaling Gateway
+> **Git Work Branch:** `feat/api-signaling-gateway` (Branch from `main`)
 
 #### Task 4.1: Authentication & RBAC Security Engine
 **Files:**
@@ -302,6 +306,7 @@
 ---
 
 ### Phase 5: Client & Dietitian Web Application (Next.js 16 App Router)
+> **Git Work Branch:** `feat/web-client-dietitian-portal` (Branch from `main`)
 
 #### Task 5.1: Next.js 16 App Scaffolding & Design System
 **Files:**
@@ -374,6 +379,7 @@
 ---
 
 ### Phase 6: Dedicated Admin & Disciplinary Tribunal Console (Next.js 16)
+> **Git Work Branch:** `feat/admin-tribunal-console` (Branch from `main`)
 
 #### Task 6.1: Admin Console Scaffolding & Security Perimeter
 **Files:**
@@ -412,6 +418,7 @@
 ---
 
 ### Phase 7: Cross-Platform Mobile Application (Expo SDK 58 / React Native)
+> **Git Work Branch:** `feat/mobile-webrtc-expo-app` (Branch from `main`)
 
 #### Task 7.1: Expo SDK 58 App Scaffolding & SecureStore Authentication
 **Files:**
@@ -449,6 +456,7 @@
 ---
 
 ### Phase 8: End-to-End Integration, Security Audit, & Verification Gate
+> **Git Work Branch:** `test/e2e-integration-audit` (Branch from `main`)
 
 #### Task 8.1: Full User Journey E2E Test Suite (Playwright)
 **Files:**
