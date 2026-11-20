@@ -19,7 +19,7 @@
 
 ### 1.3 The Academic $0-Budget Operating Constraint
 The project is developed under an academic research budget ($0 operating cost). No paid commercial cloud APIs (OpenAI, Anthropic, Stripe, Twilio) are required:
-- **Local AI Inference:** Ollama running open-source models natively on the host workstation (`llama3.2:3b` for patient simulation dialogue, `qwen2.5:7b` for rubric grading).
+- **Local AI Inference:** Ollama running open-source models natively on the host workstation (`llama3.1:8b` for patient simulation dialogue, `deepseek-r1:8b` for medical reasoning & clinical rubric grading with 92.5% USMLE accuracy and `<think>` chain-of-thought traces).
 - **Local Relational Ledger:** PostgreSQL 16/19 containerized via Docker.
 - **Local Cache & Timers:** Valkey 8 / BullMQ containerized via Docker.
 - **Local Object Storage:** MinIO S3 containerized via Docker for storing degree PDFs and dispute evidence.

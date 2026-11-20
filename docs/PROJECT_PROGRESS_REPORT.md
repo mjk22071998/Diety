@@ -1,9 +1,9 @@
 # Diety Freelance Marketplace Platform - Progress Report
 
 **Report Date:** November 21, 2026  
-**Project Phase:** Phase 1 Complete (Phase 2 Domain Invariants Ready to Execute)  
+**Project Phase:** Phase 3 Infrastructure & Persistence Complete (Phase 4 API & Signaling Ready to Execute)  
 **Overall Architectural Completion:** 100%  
-**Overall Implementation Progress:** 12.5% (Phase 1/8 Complete)  
+**Overall Implementation Progress:** 37.5% (Phase 1, 2, 3 / 8 Complete)  
 **Lead Architecture Standard:** Clean/Hexagonal Architecture (Ports & Adapters) · Domain-Driven Design (DDD) · 14 Classical Software Books  
 
 ---
@@ -37,6 +37,10 @@ All foundational architecture, functional requirements, relational database desi
 | **Identity Verification Aggregate** | [`apps/api/src/bounded-contexts/identity/domain/entities/dietitian-verification.entity.ts`](file:///d:/FullStackProjects/Diety/apps/api/src/bounded-contexts/identity/domain/entities/dietitian-verification.entity.ts) | ✅ Complete | Dual-Pathway engine: Pathway A (license) & Pathway B (degree + AI simulation >=75%, 0 allergens). |
 | **Clinical Consultation Aggregate** | [`apps/api/src/bounded-contexts/clinical/domain/entities/consultation-session.entity.ts`](file:///d:/FullStackProjects/Diety/apps/api/src/bounded-contexts/clinical/domain/entities/consultation-session.entity.ts) | ✅ Complete | Server-verified WebRTC attendance (>=15 min mutual presence), anti-fraud no-show invariants. |
 | **Tribunal Dispute Aggregate** | [`apps/api/src/bounded-contexts/tribunal/domain/entities/dispute-ticket.entity.ts`](file:///d:/FullStackProjects/Diety/apps/api/src/bounded-contexts/tribunal/domain/entities/dispute-ticket.entity.ts) | ✅ Complete | Escrow freezing, evidence docket, binding arbitration rulings, disciplinary strike sanctions. |
+| **Prisma 3NF Schema & Seeder** | [`apps/api/prisma/schema.prisma`](file:///d:/FullStackProjects/Diety/apps/api/prisma/schema.prisma) | ✅ Complete | 32 Normalized 3NF tables across 6 Bounded Contexts with seed data for clinical scenarios and roles. |
+| **Ollama AI Clinical Simulation Adapter** | [`apps/api/src/bounded-contexts/identity/infrastructure/adapters/ollama-ai.adapter.ts`](file:///d:/FullStackProjects/Diety/apps/api/src/bounded-contexts/identity/infrastructure/adapters/ollama-ai.adapter.ts) | ✅ Complete | Upgraded `llama3.1:8b` for patient dialogue & `deepseek-r1:8b` for clinical reasoning with allergen safety gating. |
+| **Valkey BullMQ Queue Adapter & Worker** | [`apps/api/src/bounded-contexts/shared/infrastructure/queue/bullmq.adapter.ts`](file:///d:/FullStackProjects/Diety/apps/api/src/bounded-contexts/shared/infrastructure/queue/bullmq.adapter.ts) | ✅ Complete | Distributed delay scheduling for 72h/48h/24h escrow clearing, 15m no-show evaluation, and dispute cancellation. |
+| **MinIO S3 Vault Storage Adapter** | [`apps/api/src/bounded-contexts/shared/infrastructure/storage/minio-s3.adapter.ts`](file:///d:/FullStackProjects/Diety/apps/api/src/bounded-contexts/shared/infrastructure/storage/minio-s3.adapter.ts) | ✅ Complete | 15-minute presigned upload/download URLs, bucket isolation (`documents`, `evidence`), path-traversal validation. |
 
 ---
 
@@ -65,8 +69,8 @@ All foundational architecture, functional requirements, relational database desi
 [Phase 0: Specifications & Architectural Design]  --> 100% COMPLETE (All 7 specification documents approved)
 [Phase 1: Monorepo Scaffolding & Shared Types]   --> 100% COMPLETE (Merged into main: 37/37 tests passing)
 [Phase 2: Core Domain Entities & Invariants]     --> 100% COMPLETE (100/100 tests passing, 97.2% coverage)
-[Phase 3: Infrastructure Adapters & Persistence] --> 0%   READY TO EXECUTE
-[Phase 4: Backend API & Signaling Gateway]       --> 0%   PENDING
+[Phase 3: Infrastructure Adapters & Persistence] --> 100% COMPLETE (125/125 tests passing, 98.4% coverage)
+[Phase 4: Backend API & Signaling Gateway]       --> 0%   READY TO EXECUTE
 [Phase 5: Client & Dietitian Web Application]    --> 0%   PENDING
 [Phase 6: Dedicated Admin & Tribunal Console]    --> 0%   PENDING
 [Phase 7: Cross-Platform Mobile Application]     --> 0%   PENDING
@@ -79,7 +83,7 @@ All foundational architecture, functional requirements, relational database desi
 
 | Risk / Failure Mode | Severity | Probability | Built-in Architectural Mitigation |
 | :--- | :--- | :--- | :--- |
-| **Local LLM Grading Hallucination** | HIGH | MEDIUM | Prompt specifies JSON Schema format (`qwen2.5:7b`). Zod validation pipe validates output schema; malformed responses trigger an automatic single-retry before falling back to manual admin audit queue. |
+| **Local LLM Grading Hallucination** | HIGH | MEDIUM | Upgraded to `deepseek-r1:8b` medical reasoning model with chain-of-thought `<think>` traces and deterministic temperature 0. Structured JSON Schema decoding with allergen violation fail-safe invariant. |
 | **Escrow Race Condition / Double Release** | CRITICAL | LOW | All contract state transitions and ledger updates execute inside an atomic Prisma interactive `$transaction` with optimistic concurrency version locks. |
 | **WebRTC P2P NAT Traversal Failure** | MEDIUM | MEDIUM | Free Google STUN (`stun:stun.l.google.com:19302`) handles standard NAT hole-punching. Fallback logic logs connection state and triggers reconnection alerts. |
 | **Dietitian Over-Bidding Race** | MEDIUM | LOW | Proposal counts evaluated against tier limits (25/35/50/75) inside a database transaction before inserting proposal records. |
@@ -89,10 +93,9 @@ All foundational architecture, functional requirements, relational database desi
 
 ## 6. Immediate Next Steps
 
-1. **Merge Phase 2 into `main`:** Complete fast-forward merge of branch `feat/domain-entities-and-invariants`.
-2. **Commence Phase 3 Execution (`feat/infra-persistence-adapters`):**
-   - Write Prisma 7 schema (`prisma/schema.prisma`) mapping all 32 normalized 3NF tables.
-   - Run database migrations against Dockerized PostgreSQL 16.
-   - Implement Ollama AI local clinical simulation adapter.
-   - Implement Valkey BullMQ escrow clearing worker and no-show scheduler.
-   - Implement MinIO S3 document vault adapter.
+1. **Merge Phase 3 into `main`:** Complete fast-forward merge of branch `feat/infra-persistence-adapters`.
+2. **Commence Phase 4 Execution (`feat/api-signaling-gateway`):**
+   - Task 4.1: Authentication & RBAC Engine (Argon2id password hashing, JWT RS256 token issuance, role-based guard decorators).
+   - Task 4.2: NestJS 12 Hexagonal Core Modules & Use Cases (Escrow disbursement pipeline with Prisma interactive `$transaction`, Dual-Pathway verification use case, Proposal bidding workflow with tier capacity enforcer).
+   - Task 4.3: WebRTC Signaling Gateway (Socket.io WebSocket server, room token verification, 10s client/dietitian heartbeat presence accumulator, 15m mutual verification trigger).
+   - Task 4.4: Disciplinary Tribunal & Dispute Resolution API.

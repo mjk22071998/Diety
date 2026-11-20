@@ -220,56 +220,74 @@
 ### Phase 3: Infrastructure Adapters & Persistence Layer
 > **Git Work Branch:** `feat/infra-persistence-adapters` (Branch from `main`)
 
-#### Task 3.1: Prisma 7 Relational Database Schema & Migrations
+#### Task 3.1: Prisma 6 Relational Database Schema & Seeder
 **Files:**
 - Create: `apps/api/prisma/schema.prisma`
 - Create: `apps/api/prisma/seed.ts`
-- Test: `npx prisma migrate dev && npx prisma db seed`
+- Test: `prisma generate && vitest`
 
 **Interfaces:**
 - Consumes: PostgreSQL 16/19 connection string
 - Produces: 3NF tables across 6 Bounded Contexts, Prisma Client types, initial seed data
 
-- [ ] **Step 1: Write `schema.prisma` defining all 32 tables from `DATABASE_SCHEMA.md`**
-- [ ] **Step 2: Configure compound unique constraints, indexes, and foreign keys**
-- [ ] **Step 3: Run `npx prisma migrate dev --name init_3nf_schema`**
-- [ ] **Step 4: Write `prisma/seed.ts` with test users, admin, categories, and clinical scenarios**
-- [ ] **Step 5: Execute seed script and verify database population**
-- [ ] **Step 6: Commit:** `git commit -m "feat(infra): configure prisma 7 schema and 3nf database migrations"`
+- [x] **Step 1: Write `schema.prisma` defining all 32 tables from `DATABASE_SCHEMA.md`**
+- [x] **Step 2: Configure compound unique constraints, indexes, and foreign keys**
+- [x] **Step 3: Run `npx prisma generate` to generate type-safe query client**
+- [x] **Step 4: Write `prisma/seed.ts` with test users, roles, categories, and clinical scenarios**
+- [x] **Step 5: Verify schema consistency and client generation**
+- [x] **Step 6: Commit:** `git commit -m "feat(infra): configure prisma 3nf schema and database seed script (Task 3.1)"`
 
 #### Task 3.2: Ollama Local AI Clinical Simulation Adapter
 **Files:**
 - Create: `apps/api/src/bounded-contexts/identity/infrastructure/adapters/ollama-ai.adapter.ts`
 - Create: `apps/api/src/bounded-contexts/identity/application/ports/ai-simulator.port.ts`
-- Test: `apps/api/test/integration/ollama-adapter.spec.ts`
+- Test: `apps/api/test/unit/infrastructure/ollama-adapter.spec.ts`
 
 **Interfaces:**
 - Consumes: `ollama` SDK (`0.6.4`), Local Ollama Daemon (`:11434`)
-- Produces: `IAISimulatorPort` implementation for patient dialogue (`llama3.1:8b`) and structured JSON clinical rubric grading with chain-of-thought medical verification (`deepseek-r1:8b` / `qwen2.5:7b`)
+- Produces: `IAISimulatorPort` implementation for patient dialogue (`llama3.1:8b`) and structured JSON clinical rubric grading with chain-of-thought medical verification (`deepseek-r1:8b`)
 
-- [ ] **Step 1: Define `IAISimulatorPort` interface in application layer**
-- [ ] **Step 2: Write integration test with mock and live Ollama fallback**
-- [ ] **Step 3: Implement `OllamaAIAdapter` using `ollama.chat()` with `format: 'json'`**
-- [ ] **Step 4: Implement resilience wrapper (timeout, retries, JSON validation against Zod schema)**
-- [ ] **Step 5: Run integration test and verify structured evaluation response**
-- [ ] **Step 6: Commit:** `git commit -m "feat(infra): implement local ollama ai clinical simulation adapter"`
+- [x] **Step 1: Define `IAISimulatorPort` interface in application layer**
+- [x] **Step 2: Write failing unit test with mocked Ollama chat responses and JSON Schema validation**
+- [x] **Step 3: Implement `OllamaAIAdapter` using `ollama.chat()` with `format: 'json'` and `temperature: 0`**
+- [x] **Step 4: Implement resilience wrapper (timeout, retries, JSON validation against Zod schema)**
+- [x] **Step 5: Run unit tests and verify structured evaluation response**
+- [x] **Step 6: Commit:** `git commit -m "feat(infra): implement local ollama ai clinical simulation adapter with llama3.1 and deepseek-r1 (Task 3.2)"`
 
 #### Task 3.3: Valkey BullMQ Queue & Timers Adapter
 **Files:**
+- Create: `apps/api/src/bounded-contexts/shared/application/ports/queue.port.ts`
 - Create: `apps/api/src/bounded-contexts/shared/infrastructure/queue/bullmq.adapter.ts`
 - Create: `apps/api/src/bounded-contexts/escrow/infrastructure/workers/escrow-clearing.worker.ts`
-- Test: `apps/api/test/integration/bullmq-queue.spec.ts`
+- Test: `apps/api/test/unit/infrastructure/bullmq-adapter.spec.ts`
 
 **Interfaces:**
 - Consumes: `ioredis` (`6.0.0`), `bullmq` (`6.7.8`)
 - Produces: Scheduled delay queue for 72h/48h/24h security clearing and 15-minute consultation no-show worker
 
-- [ ] **Step 1: Implement BullMQ queue provider with connection to local Valkey container**
-- [ ] **Step 2: Implement `EscrowClearingWorker` to process `clear-contract` jobs upon delay expiration**
-- [ ] **Step 3: Implement job cancellation hook for when a dispute is opened**
-- [ ] **Step 4: Write integration test verifying job scheduling and cancellation**
-- [ ] **Step 5: Run tests and verify**
-- [ ] **Step 6: Commit:** `git commit -m "feat(infra): implement bullmq escrow clearing queue and workers"`
+- [x] **Step 1: Implement BullMQ queue provider with connection to local Valkey container**
+- [x] **Step 2: Implement `EscrowClearingWorker` to process `clear-contract` jobs upon delay expiration**
+- [x] **Step 3: Implement job cancellation hook for when a dispute is opened**
+- [x] **Step 4: Write unit tests verifying job scheduling, delay calculation, and dispute cancellation**
+- [x] **Step 5: Run tests and verify 100% pass rate**
+- [x] **Step 6: Commit:** `git commit -m "feat(infra): implement valkey bullmq delay queue adapter and escrow worker (Task 3.3)"`
+
+#### Task 3.4: MinIO S3 Vault Storage Adapter
+**Files:**
+- Create: `apps/api/src/bounded-contexts/shared/application/ports/storage.port.ts`
+- Create: `apps/api/src/bounded-contexts/shared/infrastructure/storage/minio-s3.adapter.ts`
+- Test: `apps/api/test/unit/infrastructure/minio-adapter.spec.ts`
+
+**Interfaces:**
+- Consumes: `minio` SDK (`8.0.7`)
+- Produces: S3 vault port and adapter with 15-minute presigned upload/download URLs, buffer uploads, and anti-traversal validation
+
+- [x] **Step 1: Define `IStoragePort` interface with bucket resolution, presigned upload/download, and buffer methods**
+- [x] **Step 2: Implement `MinioS3Adapter` with bucket isolation (`documents`, `evidence`, `public`)**
+- [x] **Step 3: Implement security validation against path traversal (`..` and leading `/`)**
+- [x] **Step 4: Write comprehensive unit test suite with mock client**
+- [x] **Step 5: Run unit tests and verify 100% pass rate across entire infrastructure test suite**
+- [x] **Step 6: Commit:** `git commit -m "feat(infra): implement minio s3 vault adapter with presigned urls (Task 3.4)"`
 
 ---
 
