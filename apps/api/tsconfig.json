@@ -1,0 +1,16 @@
+{
+  "extends": "@diety/tsconfig/nest.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "./dist",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "baseUrl": "./",
+    "paths": {
+      "@shared/*": ["src/bounded-contexts/shared/*"]
+    }
+  },
+  "include": ["src/**/*", "test/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
