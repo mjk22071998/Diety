@@ -177,9 +177,10 @@ describe('Task 2.1: Domain Value Objects (Pure TDD)', () => {
       expect(limit.canSubmitProposal(25)).toBe(false); // At capacity
     });
 
-    it('should throw DomainException if active bids count is negative', () => {
+    it('should throw DomainException if active bids count is negative or not integer', () => {
       const limit = ProposalLimit.forLevel('NEW');
       expect(() => limit.canSubmitProposal(-1)).toThrow(DomainException);
+      expect(() => limit.canSubmitProposal(3.14)).toThrow(DomainException);
     });
   });
 });
