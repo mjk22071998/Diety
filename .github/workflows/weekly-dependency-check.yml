@@ -1,0 +1,31 @@
+name: 7-Day Recurring Dependency Recency Audit
+
+on:
+  schedule:
+    # Runs every 7 days (every Monday at 09:00 UTC)
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  audit-dependencies:
+    name: Audit Core Dependencies Against Live Registries
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 26 Active LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26
+
+      - name: Execute 7-Day Dependency Auditor
+        run: node scripts/check-dependency-updates.mjs
+
+      - name: Upload Audit Summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-audit-log
+          path: scripts/check-dependency-updates.mjs
