@@ -31,6 +31,12 @@ All foundational architecture, functional requirements, relational database desi
 | **7-Day Dependency Auditor Script** | [`scripts/check-dependency-updates.mjs`](file:///d:/FullStackProjects/Diety/scripts/check-dependency-updates.mjs) | ✅ Verified | Automated Node.js audit script verifying live npm registry dist-tags against target pins. |
 | **7-Day Recurring CI Workflow** | [`.github/workflows/weekly-dependency-check.yml`](file:///d:/FullStackProjects/Diety/.github/workflows/weekly-dependency-check.yml) | ✅ Created | Automated weekly GitHub Action running every Monday at 09:00 UTC. |
 | **Context Dump & Memory Vault** | [`PROJECT_CONTEXT_DUMP.md`](file:///d:/FullStackProjects/Diety/docs/PROJECT_CONTEXT_DUMP.md) | ✅ Created | Complete historical and technical context dump for zero-loss agentic continuity. |
+| **Domain Value Objects** | [`apps/api/src/bounded-contexts/shared/domain/value-objects/`](file:///d:/FullStackProjects/Diety/apps/api/src/bounded-contexts/shared/domain/value-objects/) | ✅ Complete | Immutable `Money` (integer cents), `RatingScore`, and `ProposalLimit` with self-validation. |
+| **Escrow & Contract Aggregate** | [`apps/api/src/bounded-contexts/escrow/domain/entities/contract.entity.ts`](file:///d:/FullStackProjects/Diety/apps/api/src/bounded-contexts/escrow/domain/entities/contract.entity.ts) | ✅ Complete | Double-entry ledger invariant, 75% calendar elapsed, Triple-Check release gate. |
+| **Reputation & Tier Aggregate** | [`apps/api/src/bounded-contexts/reputation/domain/entities/dietitian-level.entity.ts`](file:///d:/FullStackProjects/Diety/apps/api/src/bounded-contexts/reputation/domain/entities/dietitian-level.entity.ts) | ✅ Complete | Rolling 60-day metric promotions, 14-day grace period, Three-Strike demotion protocol. |
+| **Identity Verification Aggregate** | [`apps/api/src/bounded-contexts/identity/domain/entities/dietitian-verification.entity.ts`](file:///d:/FullStackProjects/Diety/apps/api/src/bounded-contexts/identity/domain/entities/dietitian-verification.entity.ts) | ✅ Complete | Dual-Pathway engine: Pathway A (license) & Pathway B (degree + AI simulation >=75%, 0 allergens). |
+| **Clinical Consultation Aggregate** | [`apps/api/src/bounded-contexts/clinical/domain/entities/consultation-session.entity.ts`](file:///d:/FullStackProjects/Diety/apps/api/src/bounded-contexts/clinical/domain/entities/consultation-session.entity.ts) | ✅ Complete | Server-verified WebRTC attendance (>=15 min mutual presence), anti-fraud no-show invariants. |
+| **Tribunal Dispute Aggregate** | [`apps/api/src/bounded-contexts/tribunal/domain/entities/dispute-ticket.entity.ts`](file:///d:/FullStackProjects/Diety/apps/api/src/bounded-contexts/tribunal/domain/entities/dispute-ticket.entity.ts) | ✅ Complete | Escrow freezing, evidence docket, binding arbitration rulings, disciplinary strike sanctions. |
 
 ---
 
@@ -58,8 +64,8 @@ All foundational architecture, functional requirements, relational database desi
 ```
 [Phase 0: Specifications & Architectural Design]  --> 100% COMPLETE (All 7 specification documents approved)
 [Phase 1: Monorepo Scaffolding & Shared Types]   --> 100% COMPLETE (Merged into main: 37/37 tests passing)
-[Phase 2: Core Domain Entities & Invariants]     --> 0%   READY TO EXECUTE
-[Phase 3: Infrastructure Adapters & Persistence] --> 0%   PENDING
+[Phase 2: Core Domain Entities & Invariants]     --> 100% COMPLETE (100/100 tests passing, 97.2% coverage)
+[Phase 3: Infrastructure Adapters & Persistence] --> 0%   READY TO EXECUTE
 [Phase 4: Backend API & Signaling Gateway]       --> 0%   PENDING
 [Phase 5: Client & Dietitian Web Application]    --> 0%   PENDING
 [Phase 6: Dedicated Admin & Tribunal Console]    --> 0%   PENDING
@@ -83,8 +89,10 @@ All foundational architecture, functional requirements, relational database desi
 
 ## 6. Immediate Next Steps
 
-1. **User Approval of Development Plan:** Review [`DEVELOPMENT_PLAN.md`](file:///d:/FullStackProjects/Diety/docs/DEVELOPMENT_PLAN.md) and confirm execution mode (Subagent-driven vs Native).
-2. **Commence Phase 1 Execution:**
-   - Initialize pnpm monorepo root and Turborepo pipeline configuration.
-   - Populate `@diety/types` and `@diety/validation` shared packages.
-   - Launch local Docker Compose environment (PostgreSQL 16/19, Valkey 8, MinIO S3).
+1. **Merge Phase 2 into `main`:** Complete fast-forward merge of branch `feat/domain-entities-and-invariants`.
+2. **Commence Phase 3 Execution (`feat/infra-persistence-adapters`):**
+   - Write Prisma 7 schema (`prisma/schema.prisma`) mapping all 32 normalized 3NF tables.
+   - Run database migrations against Dockerized PostgreSQL 16.
+   - Implement Ollama AI local clinical simulation adapter.
+   - Implement Valkey BullMQ escrow clearing worker and no-show scheduler.
+   - Implement MinIO S3 document vault adapter.

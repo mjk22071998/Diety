@@ -132,13 +132,13 @@
 - Consumes: Pure TypeScript (Zero external framework imports)
 - Produces: Immutable `Money`, `RatingScore`, `ProposalLimit` Value Objects with self-validation
 
-- [ ] **Step 1: Write failing unit tests for `Money`, `RatingScore`, and `ProposalLimit`**
-- [ ] **Step 2: Verify tests fail with missing classes**
-- [ ] **Step 3: Implement `Money` (integer cents, currency code, exact arithmetic, negative value rejection)**
-- [ ] **Step 4: Implement `RatingScore` (validates $1.0 \le \text{score} \le 5.0$)**
-- [ ] **Step 5: Implement `ProposalLimit` (validates active bids $\le$ tier maximum: 25/35/50/75)**
-- [ ] **Step 6: Run tests and verify 100% pass rate**
-- [ ] **Step 7: Commit:** `git commit -m "feat(domain): implement core value objects with strict invariants"`
+- [x] **Step 1: Write failing unit tests for `Money`, `RatingScore`, and `ProposalLimit`**
+- [x] **Step 2: Verify tests fail with missing classes**
+- [x] **Step 3: Implement `Money` (integer cents, currency code, exact arithmetic, negative value rejection)**
+- [x] **Step 4: Implement `RatingScore` (validates $1.0 \le \text{score} \le 5.0$)**
+- [x] **Step 5: Implement `ProposalLimit` (validates active bids $\le$ tier maximum: 25/35/50/75)**
+- [x] **Step 6: Run tests and verify 100% pass rate**
+- [x] **Step 7: Commit:** `git commit -m "feat(domain): implement core value objects with strict invariants"`
 
 #### Task 2.2: Escrow & Contract Aggregate Root
 **Files:**
@@ -150,12 +150,12 @@
 - Consumes: `Money` Value Object
 - Produces: `Contract` aggregate root enforcing fee calculation ($\text{Total} \equiv \text{Fee} + \text{Net}$) and state machine transitions
 
-- [ ] **Step 1: Write failing tests for Contract creation, fee calculation, and transition invariants**
-- [ ] **Step 2: Verify tests fail with missing aggregate**
-- [ ] **Step 3: Implement `Contract` entity with methods: `create()`, `lockEscrow()`, `requestRelease()`, `clearSecurityHold()`, `freezeForDispute()`**
-- [ ] **Step 4: Implement 75% calendar elapsed invariant check: `isEligibleForDisbursement(currentTime)`**
-- [ ] **Step 5: Run tests and verify all invariants hold**
-- [ ] **Step 6: Commit:** `git commit -m "feat(domain): implement contract and escrow aggregate root"`
+- [x] **Step 1: Write failing tests for Contract creation, fee calculation, and transition invariants**
+- [x] **Step 2: Verify tests fail with missing aggregate**
+- [x] **Step 3: Implement `Contract` entity with methods: `create()`, `lockEscrow()`, `requestRelease()`, `clearSecurityHold()`, `freezeForDispute()`**
+- [x] **Step 4: Implement 75% calendar elapsed invariant check: `isEligibleForDisbursement(currentTime)`**
+- [x] **Step 5: Run tests and verify all invariants hold**
+- [x] **Step 6: Commit:** `git commit -m "feat(domain): implement contract and escrow aggregate root"`
 
 #### Task 2.3: Reputation & Level Ranking Aggregate
 **Files:**
@@ -166,12 +166,54 @@
 - Consumes: `RatingScore`, Domain Events
 - Produces: `DietitianLevelProfile` aggregate with rolling 60-day metric evaluation and 3-strike demotion logic
 
-- [ ] **Step 1: Write failing tests for level evaluation (Silver, Gold, Platinum criteria) and strike demotions**
-- [ ] **Step 2: Verify tests fail**
-- [ ] **Step 3: Implement `DietitianLevelProfile` entity: `evaluateTier()`, `applyStrike()`, `resetGracePeriod()`**
-- [ ] **Step 4: Verify Strike 2 and Strike 3 trigger immediate demotion to New Dietitian tier**
-- [ ] **Step 5: Run tests and verify pass**
-- [ ] **Step 6: Commit:** `git commit -m "feat(domain): implement reputation and level ranking aggregate"`
+- [x] **Step 1: Write failing tests for level evaluation (Silver, Gold, Platinum criteria) and strike demotions**
+- [x] **Step 2: Verify tests fail**
+- [x] **Step 3: Implement `DietitianLevelProfile` entity: `evaluateTier()`, `applyStrike()`, `resetGracePeriod()`**
+- [x] **Step 4: Verify Strike 2 and Strike 3 trigger immediate demotion to New Dietitian tier**
+- [x] **Step 5: Run tests and verify pass**
+- [x] **Step 6: Commit:** `git commit -m "feat(domain): implement reputation and level ranking aggregate"`
+
+#### Task 2.4: Identity & Credential Verification Aggregate
+**Files:**
+- Create: `apps/api/src/bounded-contexts/identity/domain/entities/dietitian-verification.entity.ts`
+- Test: `apps/api/test/unit/domain/identity-verification-aggregate.spec.ts`
+
+**Interfaces:**
+- Consumes: Pure TypeScript
+- Produces: Dual-Pathway verification engine with government license audit and AI simulation score gating
+
+- [x] **Step 1: Write failing tests for Pathway A (license expiry/audit) and Pathway B (AI score >= 75%, 0 allergens)**
+- [x] **Step 2: Implement `DietitianVerification` aggregate root with methods `createPathwayA()`, `createPathwayB()`, `approveLicense()`, `recordAiSimulationExamResult()`**
+- [x] **Step 3: Run unit tests and verify 100% pass rate**
+- [x] **Step 4: Commit:** `git commit -m "feat(domain): implement identity dual-pathway credential verification aggregate"`
+
+#### Task 2.5: Clinical Consultation & Attendance Invariant Aggregate
+**Files:**
+- Create: `apps/api/src/bounded-contexts/clinical/domain/entities/consultation-session.entity.ts`
+- Test: `apps/api/test/unit/domain/clinical-consultation-aggregate.spec.ts`
+
+**Interfaces:**
+- Consumes: Pure TypeScript
+- Produces: Consultation attendance tracking aggregate enforcing >= 15 min mutual presence and no-show fraud protection
+
+- [x] **Step 1: Write failing tests for heartbeat presence accumulation, >= 15 min verification, and no-show claims**
+- [x] **Step 2: Implement `ConsultationSession` entity with methods `recordPresence()`, `evaluateAttendance()`, `claimClientNoShow()`, `claimDietitianNoShow()`**
+- [x] **Step 3: Run unit tests and verify 100% pass rate**
+- [x] **Step 4: Commit:** `git commit -m "feat(domain): implement clinical consultation attendance aggregate"`
+
+#### Task 2.6: Disciplinary Tribunal & Dispute Aggregate
+**Files:**
+- Create: `apps/api/src/bounded-contexts/tribunal/domain/entities/dispute-ticket.entity.ts`
+- Test: `apps/api/test/unit/domain/tribunal-dispute-aggregate.spec.ts`
+
+**Interfaces:**
+- Consumes: Pure TypeScript
+- Produces: Dispute docket aggregate managing evidence attachments, binding arbitrator rulings, and strike sanctions
+
+- [x] **Step 1: Write failing tests for dispute initiation, evidence attachment, and tribunal ruling outcomes**
+- [x] **Step 2: Implement `DisputeTicket` aggregate root with methods `attachEvidence()`, `beginArbitration()`, `resolveDispute()`**
+- [x] **Step 3: Run unit tests and verify 100% pass rate across entire domain test suite**
+- [x] **Step 4: Commit:** `git commit -m "feat(domain): implement disciplinary tribunal dispute aggregate"`
 
 ---
 
