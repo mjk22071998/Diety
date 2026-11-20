@@ -29,7 +29,7 @@ diety/
 │   ├── ui/                      # Shared design system primitives, tokens, and Tailwind configuration
 │   └── tsconfig/                # Base TypeScript configurations (strict, node, react, react-native)
 ├── docker/
-│   ├── docker-compose.yml       # Local $0 infrastructure (PostgreSQL, Redis, MinIO, Ollama)
+│   ├── docker-compose.yml       # Local $0 infrastructure (PostgreSQL, Valkey, MinIO, Ollama)
 │   └── Dockerfile.api           # Production multi-stage Docker build for NestJS backend
 ├── .env.example                 # Root environment variables template
 ├── package.json                 # Monorepo root scripts & pnpm workspace definitions
@@ -247,8 +247,8 @@ The following tables catalog all production, development, and infrastructure dep
 | **`@nestjs/platform-socket.io`**| Real-Time | `^11.2.11` / `^12.6.0` | `12.6.0` | [socket.io/docs/v4/](https://socket.io/docs/v4/) | Socket.io adapter supporting rooms, heartbeats, and reconnects. |
 | **`@prisma/client`** | Persistence | `^6.19.3` / `^7.10.1` | `7.10.1` | [prisma.io/docs](https://www.prisma.io/docs) | Type-safe SQL query engine with ACID transactions. |
 | **`prisma`** | Dev / Migration| `^6.19.3` / `^7.10.1` | `8.0.0-rc.34` | [prisma.io/docs/concepts/components/prisma-migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate) | Schema migrations, database seeding, and code generator. |
-| **`ioredis`** | Infrastructure | `^5.5.0` / `^6.0.0` | `6.0.0` | [github.com/redis/ioredis](https://github.com/redis/ioredis) | High-performance Redis client for token revocation & queues. |
-| **`bullmq`** | Infrastructure | `^5.41.0` / `^6.7.8` | `6.7.8` | [bullmq.io](https://bullmq.io) | Distributed Redis message queue for 72h escrow clearing. |
+| **`ioredis`** | Infrastructure | `^5.5.0` / `^6.0.0` | `6.0.0` | [github.com/redis/ioredis](https://github.com/redis/ioredis) | High-performance Redis/Valkey protocol client for token revocation & queues. |
+| **`bullmq`** | Infrastructure | `^5.41.0` / `^6.7.8` | `6.7.8` | [bullmq.io](https://bullmq.io) | Distributed message queue powered by Valkey/Redis for 72h escrow clearing. |
 | **`ollama`** | AI / Clinical | `^0.5.14` / `^0.6.4` | `0.6.4` | [github.com/ollama/ollama-js](https://github.com/ollama/ollama-js) | Official client for local Ollama models (Llama 3.2 & Qwen 2.5). |
 | **`minio`** | Storage | `^8.0.4` | `8.0.4` | [min.io/docs/minio/linux/index.html](https://min.io/docs/minio/linux/index.html) | S3-compatible client for local degree & evidence storage. |
 | **`argon2`** | Security | `^0.41.1` / `^0.45.2` | `0.45.2` | [github.com/ranisalt/node-argon2](https://github.com/ranisalt/node-argon2) | OWASP-recommended memory-hard password hashing. |
@@ -316,7 +316,7 @@ The following tables catalog all production, development, and infrastructure dep
 | **`prettier`** | Formatter | `^3.5.1` | Opinionated code formatting. |
 | **`vitest`** | Testing Engine | `^3.0.5` | Blazing-fast unit test execution for Domain Entities and Value Objects. |
 | **`supertest`** | API Testing | `^7.0.0` | HTTP assertion library for integration testing of NestJS controllers. |
-| **`testcontainers`** | Testing Infra | `^10.18.0` | Spins up ephemeral Dockerized PostgreSQL & Redis instances during CI test runs. |
+| **`testcontainers`** | Testing Infra | `^10.18.0` | Spins up ephemeral Dockerized PostgreSQL & Valkey instances during CI test runs. |
 | **`playwright`** | E2E Testing | `^1.50.1` | Cross-browser automated E2E tests for Web Portal and Admin Console. |
 | **`tsx`** | TS Runner | `^4.19.2` | Zero-config TypeScript execution for database seed scripts and migrations. |
 
@@ -335,7 +335,7 @@ flowchart TD
         
         subgraph DockerServices["Docker Compose Environment"]
             Postgres["PostgreSQL 16 (:5432)<br/>Relational 3NF Ledger"]
-            Redis["Redis 7 (:6379)<br/>Escrow Timers, Revocations & Queues"]
+            Valkey["Valkey 8 (:6379)<br/>Escrow Timers, Revocations & Queues"]
             MinIO["MinIO S3 (:9000)<br/>Local Document & Evidence Vault"]
         end
         
@@ -348,7 +348,7 @@ flowchart TD
         end
         
         NestApp -->|SQL Queries| Postgres
-        NestApp -->|Timers / Queues| Redis
+        NestApp -->|Timers / Queues| Valkey
         NestApp -->|S3 Uploads| MinIO
         NestApp -->|Inference HTTP| Ollama
         WebApps -->|REST & WebSockets| NestApp
@@ -383,17 +383,18 @@ services:
       timeout: 5s
       retries: 5
 
-  redis:
-    # Recommended LTS: redis:7-alpine | Latest Live: redis:8-alpine
-    image: redis:7-alpine
-    container_name: diety-redis
+  valkey:
+    # High-Performance Open Source Redis Alternative (Linux Foundation)
+    # Recommended LTS: valkey/valkey:7.2-alpine | Latest Live: valkey/valkey:8-alpine
+    image: valkey/valkey:8-alpine
+    container_name: diety-valkey
     restart: always
     ports:
       - "6379:6379"
     volumes:
-      - redis_data:/data
+      - valkey_data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "valkey-cli", "ping"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -414,7 +415,7 @@ services:
 
 volumes:
   postgres_data:
-  redis_data:
+  valkey_data:
   minio_data:
 ```
 
@@ -448,7 +449,7 @@ curl http://localhost:11434/api/generate -d '{
 |          Validates complete user flows (Bid -> Escrow -> Call -> Done)  |
 +-------------------------------------------------------------------------+
 | Level 3: Integration Tests (NestJS Test + Docker Testcontainers)        |
-|          Validates Prisma SQL Adapters, Redis Queues, & HTTP Routes     |
+|          Validates Prisma SQL Adapters, Valkey Queues, & HTTP Routes    |
 +-------------------------------------------------------------------------+
 | Level 2: Application Use Case Tests (Vitest with In-Memory Mocks)       |
 |          Validates orchestration, transaction bounds, and event firing  |
@@ -501,9 +502,13 @@ CORS_ORIGIN=http://localhost:3000,http://localhost:3002
 # PostgreSQL Database Connection
 DATABASE_URL=postgresql://diety_admin:local_dev_secret_password@localhost:5432/diety_platform_db?schema=public
 
-# Redis Connection
+# Valkey Connection (Open Source Redis Protocol Engine)
+VALKEY_HOST=localhost
+VALKEY_PORT=6379
+# Backward-compatibility aliases for Redis client libraries (ioredis / BullMQ)
 REDIS_HOST=localhost
 REDIS_PORT=6379
+VALKEY_URL=redis://localhost:6379
 
 # Cryptographic Tokens (Argon2 & JWT)
 JWT_ACCESS_SECRET=local_super_secret_jwt_access_key_min_32_chars_long
@@ -568,5 +573,5 @@ The CI pipeline in [`.github/workflows/weekly-dependency-check.yml`](file:///d:/
 - Uploads audit reports and flags breaking changes before integration.
 
 ### 8.3 Daemon Agent Recency Schedule
-Within the AI assistant runtime, an automated background cron (`0 9 */7 * *`, Task 690) runs as a persistent daemon to proactively notify the development team of upstream releases across NestJS, Next.js, React, Expo, Prisma, Redis, PostgreSQL, and Ollama.
+Within the AI assistant runtime, an automated background cron (`0 9 */7 * *`, Task 690) runs as a persistent daemon to proactively notify the development team of upstream releases across NestJS, Next.js, React, Expo, Prisma, Valkey, PostgreSQL, and Ollama.
 

@@ -79,7 +79,7 @@ Every commit in the repository must conform strictly to the **Conventional Commi
 | **`fix`** | Patches a bug or resolves an unexpected defect. | `fix(auth): prevent timing attack during argon2 password comparison` |
 | **`docs`** | Documentation additions, revisions, or architectural updates. | `docs(architecture): add C4 container and component diagrams` |
 | **`refactor`** | Code changes that neither fix a bug nor add a feature (e.g. extract class). | `refactor(domain): extract money value object from contract aggregate` |
-| **`perf`** | Code changes aimed strictly at improving execution performance or latency. | `perf(signaling): batch webrtc attendance pings in redis pipeline` |
+| **`perf`** | Code changes aimed strictly at improving execution performance or latency. | `perf(signaling): batch webrtc attendance pings in valkey pipeline` |
 | **`test`** | Adding missing tests, correcting test regressions, or refactoring test suites. | `test(escrow): add unit tests for 75% calendar elapsed invariant` |
 | **`chore`** | Updating build scripts, monorepo configs, dependency bumps, or toolchain settings. | `chore(deps): bump next from 15.5.29 to 16.4.6` |
 | **`ci`** | Modifications to CI/CD workflows, GitHub Actions, or automated scripts. | `ci(github): add 7-day recurring dependency auditor workflow` |

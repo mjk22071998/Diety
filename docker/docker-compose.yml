@@ -20,17 +20,18 @@ services:
       timeout: 5s
       retries: 5
 
-  redis:
-    # Recommended LTS: redis:7-alpine | Latest Live: redis:8-alpine
-    image: redis:7-alpine
-    container_name: diety-redis
+  valkey:
+    # High-Performance Open Source Redis Alternative (Linux Foundation)
+    # Recommended LTS: valkey/valkey:7.2-alpine | Latest Live: valkey/valkey:8-alpine
+    image: valkey/valkey:8-alpine
+    container_name: diety-valkey
     restart: always
     ports:
       - "6379:6379"
     volumes:
-      - redis_data:/data
+      - valkey_data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "valkey-cli", "ping"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -57,5 +58,5 @@ services:
 
 volumes:
   postgres_data:
-  redis_data:
+  valkey_data:
   minio_data:

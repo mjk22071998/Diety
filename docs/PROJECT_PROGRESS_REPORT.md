@@ -87,4 +87,4 @@ All foundational architecture, functional requirements, relational database desi
 2. **Commence Phase 1 Execution:**
    - Initialize pnpm monorepo root and Turborepo pipeline configuration.
    - Populate `@diety/types` and `@diety/validation` shared packages.
-   - Launch local Docker Compose environment (PostgreSQL 16/19, Redis 8, MinIO S3).
+   - Launch local Docker Compose environment (PostgreSQL 16/19, Valkey 8, MinIO S3).

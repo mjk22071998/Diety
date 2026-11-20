@@ -729,7 +729,7 @@ stateDiagram-v2
 | **Call Privacy & Eavesdropping** | Single-use, time-limited cryptographic room tokens. | Reject connection attempts without valid signed token. |
 | **Double-Hire Race Condition** | Atomic row lock (`SELECT FOR UPDATE`) on requirement during checkout. | Automated concurrent request test aborts duplicate checkout. |
 | **KYC Document Exposure** | Private encrypted vault storage with 15-minute presigned access URLs. | Direct public URL fetching returns 403 Forbidden. |
-| **Escrow Double-Credit Bug** | Distributed Redis locks (`Redlock`) on 72h clearing cron job. | Multi-worker execution test verifies single credit execution. |
+| **Escrow Double-Credit Bug** | Distributed Valkey locks (`Redlock` protocol) on 72h clearing cron job. | Multi-worker execution test verifies single credit execution. |
 | **Platform Fee Rounding Math** | Integer cents with derived net payout: $\text{Net} = \text{Total} - \text{Fee}$. | Unit test across 10,000 random cent values asserts mathematical equality. |
 | **Webhook Replay Attacks** | Raw HMAC SHA-256 signature check & unique transaction table deduplication. | Replaying captured webhook payload is dropped. |
 | **Admin Note & Reporter Leaks** | Strict role-based message filtering on complaint tickets. | Non-admin API responses redact internal notes and reporter identity. |

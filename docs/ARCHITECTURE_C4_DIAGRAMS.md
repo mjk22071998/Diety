@@ -34,7 +34,7 @@ The C4 model partitions the architecture of the **Diety Platform** into four dis
 | **Person / User** | `[("Person: Role Name")]` or `([Role Name])` | Human actors interacting with the system (Client, Dietitian, Administrator). |
 | **Software System** | `[[System Name]]` | The central platform or an external software system boundary. |
 | **Container** | `[Container: Name<br/>Tech Stack<br/>Description]` | An executable process, client application, microservice, or persistent data store. |
-| **Database / Store** | `[(Database: Name<br/>Tech Stack<br/>Description)]` | Persistent or in-memory state repository (PostgreSQL 16, Redis 7, MinIO S3). |
+| **Database / Store** | `[(Database: Name<br/>Tech Stack<br/>Description)]` | Persistent or in-memory state repository (PostgreSQL 16, Valkey 8, MinIO S3). |
 | **Component** | `[Component: Name<br/>Responsibility]` | A module, controller, use case, or adapter operating inside a container. |
 | **Synchronous Edge** | `-- "Description [HTTPS/REST]" -->` | Direct blocking remote procedure or API request. |
 | **Asynchronous Edge** | `-.->| "Description [WebSocket/Queue]" |` | Non-blocking event streaming, push notification, or message queue payload. |
@@ -131,7 +131,7 @@ flowchart TB
         %% Data Persistence & Queues
         subgraph DataTier["Data & Message Persistence Containers"]
             PostgresDB[("Relational Database & Ledger<br/>[PostgreSQL 16 Alpine]<br/>3NF schema holding identity tables, contracts, double-entry escrow ledger, diet plans, and audit logs.")]
-            RedisCache[("Cache & Task Queue Broker<br/>[Redis 7 Alpine]<br/>In-memory data store managing BullMQ queues, escrow 72-hour countdown timers, and JWT blacklists.")]
+            ValkeyCache[("Cache & Task Queue Broker<br/>[Valkey 8 Alpine]<br/>In-memory data store managing BullMQ queues, escrow 72-hour countdown timers, and JWT blacklists.")]
             MinIOStore[("Document & Evidence Vault<br/>[MinIO S3 Compatible]<br/>Encrypted local file store for academic degrees, medical licenses, and dispute screenshots.")]
         end
     end
@@ -156,7 +156,7 @@ flowchart TB
 
     %% Backend to Data Tier
     ApiGateway -- "Executes SQL Queries & ACID Transactions [Port 5432, Prisma ORM]" --> PostgresDB
-    ApiGateway -- "Schedules BullMQ jobs, caches sessions, counts clearing timers [Port 6379, ioredis]" --> RedisCache
+    ApiGateway -- "Schedules BullMQ jobs, caches sessions, counts clearing timers [Port 6379, ioredis]" --> ValkeyCache
     ApiGateway -- "Uploads & signs presigned URLs for degree PDFs & dispute evidence [Port 9000]" --> MinIOStore
 
     %% Backend to AI & Media
@@ -174,7 +174,7 @@ flowchart TB
 | **Mobile App** | Expo SDK 52+, React Native 0.76, NativeWind | iOS / Android | Push-driven native experience with biometrics, camera uploads, offline caching, and native WebRTC. |
 | **Backend API** | NestJS 12, Node.js 26 LTS, Socket.io, Prisma 7 | Docker / Node (`:3001`)| Unified hexagonal backend enforcing business invariants, JWT auth, WebRTC signaling, and BullMQ worker. |
 | **PostgreSQL Database**| PostgreSQL 16 Alpine | Docker (`:5432`)| 3NF authoritative relational storage for user profiles, contracts, immutable escrow ledger, and audit history. |
-| **Redis Cache & Queue**| Redis 7 Alpine | Docker (`:6379`)| BullMQ worker broker (72h escrow clearing, 15m no-show timer), rate-limiting, and token blacklisting. |
+| **Valkey Cache & Queue**| Valkey 8 Alpine | Docker (`:6379`)| BullMQ worker broker (72h escrow clearing, 15m no-show timer), rate-limiting, and token blacklisting. |
 | **MinIO S3 Vault** | MinIO Release 2024-11 | Docker (`:9000/9001`)| S3-compatible encrypted document storage for verification degrees, government IDs, and tribunal attachments. |
 | **Ollama AI Daemon** | Ollama v0.5+, Llama 3.2 (3B), Qwen 2.5 (7B) | Local Host (`:11434`)| Local zero-cost clinical simulation engine: generates interactive patient scenarios and automated grading. |
 
@@ -222,7 +222,7 @@ flowchart TB
     subgraph InfrastructureAdapters["Infrastructure Layer (Output Adapters)"]
         PrismaAdapter["Prisma Database Adapter<br/>[Prisma ORM]<br/>Translates domain entities to 3NF SQL, implements Unit of Work."]
         OllamaAdapter["Ollama AI Clinical Adapter<br/>[ollama-js]<br/>Calls local Llama 3.2 (patient sim) & Qwen 2.5 (rubric evaluation)."]
-        RedisBullMQAdapter["BullMQ Queue Adapter<br/>[ioredis / BullMQ]<br/>Manages 72h escrow clearing delays, 15m no-show timers."]
+        ValkeyBullMQAdapter["BullMQ Queue Adapter<br/>[ioredis / BullMQ]<br/>Manages 72h escrow clearing delays, 15m no-show timers."]
         MinIOS3Adapter["MinIO S3 Adapter<br/>[minio SDK]<br/>Uploads files, streams confidential evidence, signs presigned URLs."]
     end
 
@@ -249,7 +249,7 @@ flowchart TB
     VerifyDietitianUC --> MinIOS3Adapter
     AcceptProposalUC --> PrismaAdapter
     DisburseEscrowUC --> PrismaAdapter
-    DisburseEscrowUC --> RedisBullMQAdapter
+    DisburseEscrowUC --> ValkeyBullMQAdapter
     EvaluateLevelUC --> PrismaAdapter
     RecordAttendanceUC --> PrismaAdapter
     ArbitrateDisputeUC --> PrismaAdapter
@@ -332,7 +332,7 @@ sequenceDiagram
     actor Client as Client / Patient
     actor Dietitian as Dietitian Freelancer
     participant Api as Backend API (:3001)
-    participant Redis as Redis / BullMQ (:6379)
+    participant Valkey as Valkey / BullMQ (:6379)
     participant DB as PostgreSQL Ledger (:5432)
 
     Note over Client,Api: 1. Escrow Lock Phase
@@ -356,13 +356,13 @@ sequenceDiagram
         Note over Api,DB: Invariant Check: Calendar Time >= 75%
         Api->>DB: Verify CURRENT_TIMESTAMP >= started_at + (duration * 0.75)
         
-        Note over Api,Redis: 4. Security Clearing Countdown
-        Api->>Redis: Schedule BullMQ Job: "clear-contract-{id}" (Delay: 72h/48h/24h)
+        Note over Api,Valkey: 4. Security Clearing Countdown
+        Api->>Valkey: Schedule BullMQ Job: "clear-contract-{id}" (Delay: 72h/48h/24h)
         Api->>DB: UPDATE contracts SET status = 'CLEARING'
         Api-->>Dietitian: Notification: "Funds in Security Clearing (Releases in 72h)"
         
-        Note over Redis,Api: 5. Final Disbursement
-        Redis-->>Api: Trigger "clear-contract-{id}" on timer expiry
+        Note over Valkey,Api: 5. Final Disbursement
+        Valkey-->>Api: Trigger "clear-contract-{id}" on timer expiry
         Api->>DB: BEGIN TRANSACTION
         Api->>DB: INSERT INTO wallet_transactions (dietitian_id, amount_cents = 18000, type = 'NET_PAYOUT')
         Api->>DB: INSERT INTO wallet_transactions (platform_id, amount_cents = 2000, type = 'PLATFORM_FEE')
@@ -371,7 +371,7 @@ sequenceDiagram
         Api-->>Dietitian: Notification: "Funds Cleared! Available for withdrawal."
     else Client Opens Dispute within 72h Window
         Client->>Api: POST /api/v1/tribunal/disputes { reason, contractId }
-        Api->>Redis: CANCEL BullMQ Job "clear-contract-{id}"
+        Api->>Valkey: CANCEL BullMQ Job "clear-contract-{id}"
         Api->>DB: UPDATE contracts SET status = 'DISPUTED'
         Api->>DB: INSERT INTO dispute_tickets (contract_id, status = 'OPEN')
         Api-->>Client: Dispute Registered - Escrow Frozen Pending Arbitrator Hearing

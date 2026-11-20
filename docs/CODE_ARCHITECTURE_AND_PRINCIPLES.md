@@ -257,7 +257,7 @@ DEEP MODULE (Architectural Standard):
 |  2. Fetches dietitian tier to determine clearance window (72h vs 48h vs 24h).         |
 |  3. Deducts tier-specific platform commission (10% standard vs 8% Top Rated).         |
 |  4. Records immutable double-entry ledger credit to PENDING_CLEARANCE.                 |
-|  5. Schedules distributed Redis timer for automatic clearing unlock.                  |
+|  5. Schedules distributed Valkey timer for automatic clearing unlock.                 |
 |  6. Emits ContractApprovedEvent to notification and reputation services.               |
 +---------------------------------------------------------------------------------------+
 ```
@@ -268,7 +268,7 @@ DEEP MODULE (Architectural Standard):
 
 ### 7.1 Single Source of Truth vs. Derived State
 - **Authoritative Source of Truth:** The 3NF Relational Database (PostgreSQL) is the sole system of record for all state, identity, and financial transactions.
-- **Derived Representations:** Full-text search feeds, Redis caches, and real-time proposal counters are strictly derived and disposable. In the event of a cache purge, the system must rebuild state deterministically from PostgreSQL.
+- **Derived Representations:** Full-text search feeds, Valkey caches, and real-time proposal counters are strictly derived and disposable. In the event of a cache purge, the system must rebuild state deterministically from PostgreSQL.
 
 ### 7.2 Idempotency Invariant for Network IO
 Network deliveries can fail, duplicate, or arrive out of order. All mutating operations must enforce idempotency:

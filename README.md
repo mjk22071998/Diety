@@ -11,13 +11,13 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4+-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Prisma](https://img.shields.io/badge/Prisma-v7+-2D3748?logo=prisma&logoColor=white)](https://www.prisma.io)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16%2F19-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org)
-[![Redis](https://img.shields.io/badge/Redis-8-DC382D?logo=redis&logoColor=white)](https://redis.io)
+[![Valkey](https://img.shields.io/badge/Valkey-8-FF5722?logo=valkey&logoColor=white)](https://valkey.io)
 [![Ollama](https://img.shields.io/badge/Ollama-Local_AI-000000?logo=ollama&logoColor=white)](https://ollama.ai)
 [![Conventional Commits](https://img.shields.io/badge/Conventional_Commits-v1.0.0-FE5196?logo=conventionalcommits&logoColor=white)](https://www.conventionalcommits.org)
 
 **Diety** is an enterprise-grade freelance marketplace platform connecting individuals seeking clinical nutrition guidance with verified dietitians. Built specifically to eliminate the credentialing barriers of conventional freelance platforms, Diety enforces clinical safety through a **dual-pathway verification engine**, protects transactions with an **immutable double-entry escrow ledger**, conducts encrypted **peer-to-peer WebRTC video consultations**, and arbitrates disputes through a **three-strike disciplinary tribunal**.
 
-The entire platform is engineered to run on a **$0 academic operating budget**, replacing costly cloud APIs with containerized local services (PostgreSQL 16/19, Redis 8, MinIO S3), local host LLMs (Ollama with Llama 3.2 3B and Qwen 2.5 7B), and zero-cost public Google STUN for WebRTC NAT traversal.
+The entire platform is engineered to run on a **$0 academic operating budget**, replacing costly cloud APIs with containerized local services (PostgreSQL 16/19, Valkey 8, MinIO S3), local host LLMs (Ollama with Llama 3.2 3B and Qwen 2.5 7B), and zero-cost public Google STUN for WebRTC NAT traversal.
 
 ---
 
@@ -53,7 +53,7 @@ diety/
 │   ├── ui/                      # @diety/ui: Shared Tailwind CSS 4 Design Tokens & Radix Components
 │   └── tsconfig/                # @diety/tsconfig: Strict TypeScript Configurations (base, nest, next, react-native)
 ├── docker/
-│   └── docker-compose.yml       # Local $0 Stack: PostgreSQL 16/19, Redis 8, MinIO S3
+│   └── docker-compose.yml       # Local $0 Stack: PostgreSQL 16/19, Valkey 8, MinIO S3
 ├── docs/                        # Complete Architecture, Specifications, Schema & C4 Diagrams
 ├── scripts/
 │   └── check-dependency-updates.mjs # 7-day recurring dependency recency auditor
@@ -69,11 +69,11 @@ diety/
 | Layer / Subsystem | Primary Technologies | Pinned Version | Documentation |
 | :--- | :--- | :--- | :--- |
 | **Runtime & Toolchain** | Node.js (Active LTS), TypeScript, pnpm, Turborepo | Node `26.13+`, TS `7.0+`, pnpm `9.12+`, Turbo `2.11+` | [nodejs.org](https://nodejs.org) · [turbo.build](https://turbo.build) |
-| **Backend API (`apps/api`)** | NestJS, Prisma ORM, BullMQ, ioredis, Socket.io, Argon2 | NestJS `12.6+`, Prisma `7.10+`, BullMQ `6.7+`, Redis `6.0+` | [docs.nestjs.com](https://docs.nestjs.com) · [prisma.io](https://prisma.io) |
+| **Backend API (`apps/api`)** | NestJS, Prisma ORM, BullMQ, ioredis, Socket.io, Argon2 | NestJS `12.6+`, Prisma `7.10+`, BullMQ `6.7+`, ioredis `6.0+` | [docs.nestjs.com](https://docs.nestjs.com) · [prisma.io](https://prisma.io) |
 | **Web Portal (`apps/web`)** | Next.js (App Router), React, Tailwind CSS, TanStack Query | Next.js `16.4+`, React `19.3+`, Tailwind `4.3+`, Query `5.108+`| [nextjs.org](https://nextjs.org) · [react.dev](https://react.dev) |
 | **Admin Console (`apps/admin`)**| Next.js, TanStack Table, Recharts, Radix UI | Next.js `16.4+`, Table `9.3+`, Recharts `3.11+` | [tanstack.com/table](https://tanstack.com/table) |
 | **Mobile App (`apps/mobile`)** | Expo, React Native, Expo Router, React Native WebRTC | Expo `58.0+`, RN `0.88+`, Router `58.0+`, WebRTC `155.0+` | [docs.expo.dev](https://docs.expo.dev) |
-| **Local Infrastructure ($0)** | PostgreSQL 16/19, Redis 8, MinIO S3, Ollama (Llama 3.2 & Qwen 2.5) | Docker Compose Services, Ollama `v0.40+` | [postgresql.org](https://postgresql.org) · [ollama.ai](https://ollama.ai) |
+| **Local Infrastructure ($0)** | PostgreSQL 16/19, Valkey 8, MinIO S3, Ollama (Llama 3.2 & Qwen 2.5) | Docker Compose Services, Ollama `v0.40+` | [postgresql.org](https://postgresql.org) · [valkey.io](https://valkey.io) · [ollama.ai](https://ollama.ai) |
 
 ---
 
@@ -82,7 +82,7 @@ diety/
 ### 4.1 Prerequisites
 - **Node.js**: `v26.13.0` Active LTS or higher (`node -v`)
 - **pnpm**: `v9.12.0` or higher (`npm install -g pnpm`)
-- **Docker & Docker Compose**: For local PostgreSQL, Redis, and MinIO
+- **Docker & Docker Compose**: For local PostgreSQL, Valkey, and MinIO
 - **Ollama**: For local AI clinical case simulation ([Download Ollama](https://ollama.ai))
 
 ### 4.2 Installation & Setup

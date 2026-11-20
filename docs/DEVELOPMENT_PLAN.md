@@ -12,7 +12,7 @@
 - Backend: NestJS 12, Prisma ORM 7, BullMQ 6, ioredis 6, Socket.io 4, Argon2, Zod 4
 - Web & Admin: Next.js 16 (App Router), React 19, Tailwind CSS 4, Radix UI, TanStack Query 5, TanStack Table 9, Recharts 3, simple-peer
 - Mobile: Expo SDK 58, React Native 0.88, NativeWind 4, React Native WebRTC, Expo SecureStore
-- Local Services ($0 Budget): PostgreSQL 16/19, Redis 8, MinIO S3, Ollama (Llama 3.2 3B & Qwen 2.5 7B), Google STUN
+- Local Services ($0 Budget): PostgreSQL 16/19, Valkey 8, MinIO S3, Ollama (Llama 3.2 3B & Qwen 2.5 7B), Google STUN
 
 **Specs & Foundations:**
 - [`SOFTWARE_REQUIREMENTS_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/docs/SOFTWARE_REQUIREMENTS_SPECIFICATION.md)
@@ -53,7 +53,7 @@
 +-------------------------------------------------------------------------------------------------------+
 | Phase 1: Monorepo Scaffolding, Shared Contracts, & Docker Infrastructure                             |
 | Phase 2: Core Domain Entities, Value Objects, & Business Invariants (TDD)                            |
-| Phase 3: Infrastructure Adapters (Prisma 7 3NF Ledger, Redis BullMQ, MinIO S3, Ollama AI)             |
+| Phase 3: Infrastructure Adapters (Prisma 7 3NF Ledger, Valkey BullMQ, MinIO S3, Ollama AI)            |
 | Phase 4: Application Use Cases & NestJS 12 API / WebRTC Signaling Gateway                            |
 | Phase 5: Client & Dietitian Web Application (Next.js 16 App Router & Video Consultations)            |
 | Phase 6: Dedicated Admin & Disciplinary Tribunal Console (Next.js 16, Table v9, Recharts)             |
@@ -108,12 +108,12 @@
 
 **Interfaces:**
 - Consumes: Docker Engine
-- Produces: PostgreSQL 16/19 container (`:5432`), Redis 8 container (`:6379`), MinIO S3 container (`:9000/:9001`)
+- Produces: PostgreSQL 16/19 container (`:5432`), Valkey 8 container (`:6379`), MinIO S3 container (`:9000/:9001`)
 
-- [ ] **Step 1: Write `docker-compose.yml` with healthchecks for PostgreSQL, Redis, and MinIO**
+- [ ] **Step 1: Write `docker-compose.yml` with healthchecks for PostgreSQL, Valkey, and MinIO**
 - [ ] **Step 2: Create root `.env.example` with local connection strings**
 - [ ] **Step 3: Execute `docker compose up -d` and verify all containers reach healthy state**
-- [ ] **Step 4: Verify PostgreSQL connection via `pg_isready` and Redis via `redis-cli ping`**
+- [ ] **Step 4: Verify PostgreSQL connection via `pg_isready` and Valkey via `valkey-cli ping`**
 - [ ] **Step 5: Commit:** `git commit -m "chore(infra): configure local docker-compose environment"`
 
 ---
@@ -212,7 +212,7 @@
 - [ ] **Step 5: Run integration test and verify structured evaluation response**
 - [ ] **Step 6: Commit:** `git commit -m "feat(infra): implement local ollama ai clinical simulation adapter"`
 
-#### Task 3.3: Redis BullMQ Queue & Timers Adapter
+#### Task 3.3: Valkey BullMQ Queue & Timers Adapter
 **Files:**
 - Create: `apps/api/src/bounded-contexts/shared/infrastructure/queue/bullmq.adapter.ts`
 - Create: `apps/api/src/bounded-contexts/escrow/infrastructure/workers/escrow-clearing.worker.ts`
@@ -222,7 +222,7 @@
 - Consumes: `ioredis` (`6.0.0`), `bullmq` (`6.7.8`)
 - Produces: Scheduled delay queue for 72h/48h/24h security clearing and 15-minute consultation no-show worker
 
-- [ ] **Step 1: Implement BullMQ queue provider with connection to local Redis container**
+- [ ] **Step 1: Implement BullMQ queue provider with connection to local Valkey container**
 - [ ] **Step 2: Implement `EscrowClearingWorker` to process `clear-contract` jobs upon delay expiration**
 - [ ] **Step 3: Implement job cancellation hook for when a dispute is opened**
 - [ ] **Step 4: Write integration test verifying job scheduling and cancellation**
@@ -281,7 +281,7 @@
 
 - [ ] **Step 1: Write integration tests for Socket.io signaling events (`join-room`, `signal`, `attendance-ping`)**
 - [ ] **Step 2: Implement `SignalingGateway` with room authentication via JWT handshake**
-- [ ] **Step 3: Implement `RecordAttendanceUseCase` tracking mutual attendance minutes in Redis**
+- [ ] **Step 3: Implement `RecordAttendanceUseCase` tracking mutual attendance minutes in Valkey**
 - [ ] **Step 4: Trigger consultation verified record when cumulative attendance $\ge 15$ minutes**
 - [ ] **Step 5: Run integration tests and verify peer connectivity**
 - [ ] **Step 6: Commit:** `git commit -m "feat(api): implement webrtc signaling gateway and attendance verification"`

@@ -21,7 +21,7 @@
 The project is developed under an academic research budget ($0 operating cost). No paid commercial cloud APIs (OpenAI, Anthropic, Stripe, Twilio) are required:
 - **Local AI Inference:** Ollama running open-source models natively on the host workstation (`llama3.2:3b` for patient simulation dialogue, `qwen2.5:7b` for rubric grading).
 - **Local Relational Ledger:** PostgreSQL 16/19 containerized via Docker.
-- **Local Cache & Timers:** Redis 8 / BullMQ containerized via Docker.
+- **Local Cache & Timers:** Valkey 8 / BullMQ containerized via Docker.
 - **Local Object Storage:** MinIO S3 containerized via Docker for storing degree PDFs and dispute evidence.
 - **Zero-Cost Video Calling:** WebRTC peer-to-peer media transport utilizing free public Google STUN (`stun:stun.l.google.com:19302`).
 
@@ -168,7 +168,7 @@ diety/
 │   ├── ui/                      # Shared Tailwind CSS 4 Design Tokens & Radix UI Component Primitives
 │   └── tsconfig/                # Strict Shared TypeScript Configurations (base, nest, next, react-native)
 ├── docker/
-│   └── docker-compose.yml       # Local $0 Stack: PostgreSQL 16/19, Redis 8, MinIO S3
+│   └── docker-compose.yml       # Local $0 Stack: PostgreSQL 16/19, Valkey 8, MinIO S3
 ├── scripts/
 │   └── check-dependency-updates.mjs # Turnkey 7-day automated dependency recency auditor
 └── .github/
