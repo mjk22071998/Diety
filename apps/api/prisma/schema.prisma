@@ -1,0 +1,521 @@
+// ==============================================================================
+// DIETY PLATFORM - COMPLETE 3NF NORMALIZED RELATIONAL SCHEMA
+// Database Engine: PostgreSQL 16/19 Alpine | ORM: Prisma 7
+// Currency Standard: Non-negative Integer Cents (USD base)
+// ==============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ------------------------------------------------------------------------------
+// Domain 1: Identity, Authentication & Roles
+// ------------------------------------------------------------------------------
+
+model Role {
+  id        Int      @id @default(autoincrement()) @map("role_id") @db.SmallInt
+  name      String   @unique @map("role_name") @db.VarChar(30)
+  users     User[]
+
+  @@map("roles")
+}
+
+model UserStatus {
+  id        Int      @id @default(autoincrement()) @map("status_id") @db.SmallInt
+  name      String   @unique @map("status_name") @db.VarChar(30)
+  users     User[]
+
+  @@map("user_statuses")
+}
+
+model User {
+  id                String       @id @default(uuid()) @map("user_id") @db.Uuid
+  email             String       @unique @db.VarChar(255)
+  phoneCountryCode  String       @map("phone_country_code") @db.VarChar(8)
+  phoneNumber       String       @unique @map("phone_number") @db.VarChar(30)
+  fullName          String       @map("full_name") @db.VarChar(150)
+  passwordHash      String       @map("password_hash") @db.VarChar(255)
+  roleId            Int          @map("role_id") @db.SmallInt
+  statusId          Int          @map("status_id") @db.SmallInt
+  countryCode       String       @map("country_code") @db.Char(2)
+  timezone          String       @default("UTC") @db.VarChar(60)
+  avatarUrl         String?      @map("avatar_url") @db.VarChar(500)
+  isDeleted         Boolean      @default(false) @map("is_deleted")
+  deletedAt         DateTime?    @map("deleted_at") @db.Timestamptz
+  createdAt         DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime     @updatedAt @map("updated_at") @db.Timestamptz
+
+  role              Role         @relation(fields: [roleId], references: [id])
+  status            UserStatus   @relation(fields: [statusId], references: [id])
+  dietitianProfile  DietitianProfile?
+  wallet            Wallet?
+  clientRequirements Requirement[] @relation("ClientRequirements")
+  clientContracts   Contract[]   @relation("ClientContracts")
+  dietitianContracts Contract[]  @relation("DietitianContracts")
+  initiatedDisputes DisputeTicket[] @relation("InitiatedDisputes")
+  receivedDisputes  DisputeTicket[] @relation("ReceivedDisputes")
+  strikeRecords     StrikeRecord[]
+
+  @@index([email])
+  @@index([phoneNumber])
+  @@map("users")
+}
+
+// ------------------------------------------------------------------------------
+// Domain 2: Dietitian Credentialing, Verification & Level Ranking
+// ------------------------------------------------------------------------------
+
+model VerificationStatus {
+  id        Int      @id @default(autoincrement()) @map("verification_status_id") @db.SmallInt
+  name      String   @unique @map("status_name") @db.VarChar(40)
+  profiles  DietitianProfile[]
+
+  @@map("verification_statuses")
+}
+
+model PractitionerType {
+  id          Int      @id @default(autoincrement()) @map("practitioner_type_id") @db.SmallInt
+  name        String   @unique @map("type_name") @db.VarChar(40)
+  badgeSlug   String   @unique @map("badge_slug") @db.VarChar(30)
+  description String   @db.Text
+  profiles    DietitianProfile[]
+
+  @@map("practitioner_types")
+}
+
+model DietitianLevel {
+  id                     Int      @id @default(autoincrement()) @map("level_id") @db.SmallInt
+  name                   String   @unique @map("level_name") @db.VarChar(40)
+  slug                   String   @unique @db.VarChar(30)
+  minCompletedOrders     Int      @default(0) @map("min_completed_orders")
+  minRating              Decimal  @default(0.0) @map("min_rating") @db.Decimal(2, 1)
+  minOnTimeRate          Decimal  @default(0.0) @map("min_on_time_delivery_rate") @db.Decimal(5, 2)
+  minEarningsCents       Int      @default(0) @map("min_earnings_cents")
+  commissionRatePercent  Int      @default(10) @map("commission_rate_percent") @db.SmallInt
+  maxActiveBids          Int      @default(25) @map("max_active_bids")
+  description            String   @db.Text
+  profiles               DietitianProfile[]
+  fromHistories          DietitianLevelHistory[] @relation("FromLevel")
+  toHistories            DietitianLevelHistory[] @relation("ToLevel")
+
+  @@map("dietitian_levels")
+}
+
+model DietitianProfile {
+  dietitianId           String   @id @default(uuid()) @map("dietitian_id") @db.Uuid
+  userId                String   @unique @map("user_id") @db.Uuid
+  verificationStatusId  Int      @default(1) @map("verification_status_id") @db.SmallInt
+  practitionerTypeId    Int      @default(1) @map("practitioner_type_id") @db.SmallInt
+  levelId               Int      @default(1) @map("level_id") @db.SmallInt
+  bio                   String?  @db.Text
+  yearsOfExperience     Int      @default(0) @map("years_of_experience") @db.SmallInt
+  hourlyRateCents       Int      @default(5000) @map("hourly_rate_cents")
+  consultationRateCents Int      @default(7500) @map("consultation_rate_cents")
+  isAcceptingClients    Boolean  @default(true) @map("is_accepting_clients")
+  createdAt             DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt             DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  user                  User     @relation(fields: [userId], references: [id])
+  verificationStatus    VerificationStatus @relation(fields: [verificationStatusId], references: [id])
+  practitionerType      PractitionerType @relation(fields: [practitionerTypeId], references: [id])
+  level                 DietitianLevel @relation(fields: [levelId], references: [id])
+  specializations       DietitianSpecialization[]
+  languages             DietitianLanguage[]
+  documents             VerificationDocument[]
+  levelHistories        DietitianLevelHistory[]
+  aiAssessments         AiAssessment[]
+  bids                  Bid[]
+
+  @@map("dietitian_profiles")
+}
+
+model Specialization {
+  id          Int      @id @default(autoincrement()) @map("specialization_id") @db.SmallInt
+  name        String   @unique @map("specialization_name") @db.VarChar(100)
+  description String?  @db.Text
+  dietitians  DietitianSpecialization[]
+
+  @@map("specializations")
+}
+
+model DietitianSpecialization {
+  dietitianId       String         @map("dietitian_id") @db.Uuid
+  specializationId  Int            @map("specialization_id") @db.SmallInt
+
+  dietitian         DietitianProfile @relation(fields: [dietitianId], references: [dietitianId])
+  specialization    Specialization   @relation(fields: [specializationId], references: [id])
+
+  @@id([dietitianId, specializationId])
+  @@map("dietitian_specializations")
+}
+
+model Language {
+  id          Int      @id @default(autoincrement()) @map("language_id") @db.SmallInt
+  name        String   @unique @map("language_name") @db.VarChar(50)
+  code        String   @unique @map("language_code") @db.Char(2)
+  dietitians  DietitianLanguage[]
+
+  @@map("languages")
+}
+
+model DietitianLanguage {
+  dietitianId       String           @map("dietitian_id") @db.Uuid
+  languageId        Int              @map("language_id") @db.SmallInt
+  proficiencyLevel  String           @default("NATIVE") @map("proficiency_level") @db.VarChar(20)
+
+  dietitian         DietitianProfile @relation(fields: [dietitianId], references: [dietitianId])
+  language          Language         @relation(fields: [languageId], references: [id])
+
+  @@id([dietitianId, languageId])
+  @@map("dietitian_languages")
+}
+
+model DocumentType {
+  id          Int      @id @default(autoincrement()) @map("document_type_id") @db.SmallInt
+  name        String   @unique @map("type_name") @db.VarChar(40)
+  documents   VerificationDocument[]
+
+  @@map("document_types")
+}
+
+model VerificationDocument {
+  id                String       @id @default(uuid()) @map("document_id") @db.Uuid
+  dietitianId       String       @map("dietitian_id") @db.Uuid
+  documentTypeId    Int          @map("document_type_id") @db.SmallInt
+  fileUrl           String       @map("file_url") @db.VarChar(500)
+  licenseNumber     String?      @map("license_number") @db.VarChar(100)
+  jurisdiction      String?      @db.VarChar(100)
+  expiryDate        DateTime?    @map("expiry_date") @db.Date
+  isVerified        Boolean      @default(false) @map("is_verified")
+  uploadedAt        DateTime     @default(now()) @map("uploaded_at") @db.Timestamptz
+  verifiedAt        DateTime?    @map("verified_at") @db.Timestamptz
+  rejectionReason   String?      @map("rejection_reason") @db.Text
+
+  dietitian         DietitianProfile @relation(fields: [dietitianId], references: [dietitianId])
+  documentType      DocumentType     @relation(fields: [documentTypeId], references: [id])
+
+  @@map("verification_documents")
+}
+
+model DietitianLevelHistory {
+  id                           String       @id @default(uuid()) @map("history_id") @db.Uuid
+  dietitianId                  String       @map("dietitian_id") @db.Uuid
+  fromLevelId                  Int          @map("from_level_id") @db.SmallInt
+  toLevelId                    Int          @map("to_level_id") @db.SmallInt
+  transitionReason             String       @map("transition_reason") @db.Text
+  activeOrdersCount            Int          @default(0) @map("active_orders_count")
+  ratingSnapshot               Decimal      @map("rating_snapshot") @db.Decimal(2, 1)
+  onTimeDeliveryRateSnapshot   Decimal      @map("on_time_delivery_rate_snapshot") @db.Decimal(5, 2)
+  totalEarningsCentsSnapshot   Int          @map("total_earnings_cents_snapshot")
+  evaluatedAt                  DateTime     @default(now()) @map("evaluated_at") @db.Timestamptz
+
+  dietitian                    DietitianProfile @relation(fields: [dietitianId], references: [dietitianId])
+  fromLevel                    DietitianLevel   @relation("FromLevel", fields: [fromLevelId], references: [id])
+  toLevel                      DietitianLevel   @relation("ToLevel", fields: [toLevelId], references: [id])
+
+  @@map("dietitian_level_history")
+}
+
+model AiAssessment {
+  id                      String       @id @default(uuid()) @map("assessment_id") @db.Uuid
+  dietitianId             String       @map("dietitian_id") @db.Uuid
+  simulationModel         String       @default("llama3.1:8b") @map("simulation_model") @db.VarChar(60)
+  gradingModel            String       @default("deepseek-r1:8b") @map("grading_model") @db.VarChar(60)
+  scorePercent            Int          @map("score_percent") @db.SmallInt
+  allergenViolationsCount Int          @default(0) @map("allergen_violations_count") @db.SmallInt
+  completedTurns          Int          @default(5) @map("completed_turns") @db.SmallInt
+  feedbackJson            Json         @map("feedback_json")
+  passed                  Boolean      @default(false)
+  assessedAt              DateTime     @default(now()) @map("assessed_at") @db.Timestamptz
+
+  dietitian               DietitianProfile @relation(fields: [dietitianId], references: [dietitianId])
+
+  @@map("ai_assessments")
+}
+
+// ------------------------------------------------------------------------------
+// Domain 3: Marketplace, Requirements & Bidding
+// ------------------------------------------------------------------------------
+
+model HealthGoal {
+  id          Int      @id @default(autoincrement()) @map("goal_id") @db.SmallInt
+  name        String   @unique @map("goal_name") @db.VarChar(60)
+  description String?  @db.Text
+  requirements Requirement[]
+
+  @@map("health_goals")
+}
+
+model DietaryPreference {
+  id          Int      @id @default(autoincrement()) @map("preference_id") @db.SmallInt
+  name        String   @unique @map("preference_name") @db.VarChar(60)
+  description String?  @db.Text
+  requirements Requirement[]
+
+  @@map("dietary_preferences")
+}
+
+model RequirementStatus {
+  id          Int      @id @default(autoincrement()) @map("status_id") @db.SmallInt
+  name        String   @unique @map("status_name") @db.VarChar(30)
+  requirements Requirement[]
+
+  @@map("requirement_statuses")
+}
+
+model Allergen {
+  id             Int      @id @default(autoincrement()) @map("allergen_id") @db.SmallInt
+  name           String   @unique @map("allergen_name") @db.VarChar(60)
+  severityLevel  String   @default("HIGH") @map("severity_level") @db.VarChar(20)
+  requirements   RequirementAllergen[]
+
+  @@map("allergens")
+}
+
+model Requirement {
+  id              String            @id @default(uuid()) @map("requirement_id") @db.Uuid
+  clientId        String            @map("client_id") @db.Uuid
+  title           String            @db.VarChar(200)
+  description     String            @db.Text
+  goalId          Int               @map("goal_id") @db.SmallInt
+  preferenceId    Int               @map("preference_id") @db.SmallInt
+  statusId        Int               @default(1) @map("status_id") @db.SmallInt
+  budgetCents     Int               @map("budget_cents")
+  durationWeeks   Int               @default(4) @map("duration_weeks") @db.SmallInt
+  createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime          @updatedAt @map("updated_at") @db.Timestamptz
+
+  client          User              @relation("ClientRequirements", fields: [clientId], references: [id])
+  goal            HealthGoal        @relation(fields: [goalId], references: [id])
+  preference      DietaryPreference @relation(fields: [preferenceId], references: [id])
+  status          RequirementStatus @relation(fields: [statusId], references: [id])
+  allergens       RequirementAllergen[]
+  bids            Bid[]
+  contract        Contract?
+
+  @@map("requirements")
+}
+
+model RequirementAllergen {
+  requirementId   String       @map("requirement_id") @db.Uuid
+  allergenId      Int          @map("allergen_id") @db.SmallInt
+
+  requirement     Requirement  @relation(fields: [requirementId], references: [id])
+  allergen        Allergen     @relation(fields: [allergenId], references: [id])
+
+  @@id([requirementId, allergenId])
+  @@map("requirement_allergens")
+}
+
+model BidStatus {
+  id          Int      @id @default(autoincrement()) @map("status_id") @db.SmallInt
+  name        String   @unique @map("status_name") @db.VarChar(30)
+  bids        Bid[]
+
+  @@map("bid_statuses")
+}
+
+model Bid {
+  id                     String       @id @default(uuid()) @map("bid_id") @db.Uuid
+  requirementId          String       @map("requirement_id") @db.Uuid
+  dietitianId            String       @map("dietitian_id") @db.Uuid
+  statusId               Int          @default(1) @map("status_id") @db.SmallInt
+  bidAmountCents         Int          @map("bid_amount_cents")
+  proposedDurationWeeks  Int          @map("proposed_duration_weeks") @db.SmallInt
+  coverLetter            String       @map("cover_letter") @db.Text
+  createdAt              DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt              DateTime     @updatedAt @map("updated_at") @db.Timestamptz
+
+  requirement            Requirement  @relation(fields: [requirementId], references: [id])
+  dietitian              DietitianProfile @relation(fields: [dietitianId], references: [dietitianId])
+  status                 BidStatus    @relation(fields: [statusId], references: [id])
+  contract               Contract?
+
+  @@unique([requirementId, dietitianId])
+  @@map("bids")
+}
+
+// ------------------------------------------------------------------------------
+// Domain 4: Contracts, Escrow & Double-Entry Financial Ledger
+// ------------------------------------------------------------------------------
+
+model ContractStatus {
+  id          Int      @id @default(autoincrement()) @map("status_id") @db.SmallInt
+  name        String   @unique @map("status_name") @db.VarChar(30)
+  contracts   Contract[]
+
+  @@map("contract_statuses")
+}
+
+model Contract {
+  id                     String       @id @default(uuid()) @map("contract_id") @db.Uuid
+  requirementId          String       @unique @map("requirement_id") @db.Uuid
+  bidId                  String       @unique @map("bid_id") @db.Uuid
+  clientId               String       @map("client_id") @db.Uuid
+  dietitianId            String       @map("dietitian_id") @db.Uuid
+  statusId               Int          @default(1) @map("status_id") @db.SmallInt
+  totalAmountCents       Int          @map("total_amount_cents")
+  platformFeeCents       Int          @map("platform_fee_cents")
+  netAmountCents         Int          @map("net_amount_cents")
+  clearingPeriodHours    Int          @default(72) @map("clearing_period_hours") @db.SmallInt
+  startedAt              DateTime     @default(now()) @map("started_at") @db.Timestamptz
+  targetDeliveryDate     DateTime     @map("target_delivery_date") @db.Timestamptz
+  completedAt            DateTime?    @map("completed_at") @db.Timestamptz
+  createdAt              DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt              DateTime     @updatedAt @map("updated_at") @db.Timestamptz
+
+  requirement            Requirement  @relation(fields: [requirementId], references: [id])
+  bid                    Bid          @relation(fields: [bidId], references: [id])
+  client                 User         @relation("ClientContracts", fields: [clientId], references: [id])
+  dietitian              User         @relation("DietitianContracts", fields: [dietitianId], references: [id])
+  status                 ContractStatus @relation(fields: [statusId], references: [id])
+  escrowTransactions     EscrowTransaction[]
+  appointments           Appointment[]
+  dietPlans              DietPlan[]
+  disputes               DisputeTicket[]
+
+  @@map("contracts")
+}
+
+model EscrowTransactionType {
+  id          Int      @id @default(autoincrement()) @map("type_id") @db.SmallInt
+  name        String   @unique @map("type_name") @db.VarChar(40)
+  transactions EscrowTransaction[]
+
+  @@map("escrow_transaction_types")
+}
+
+model EscrowTransaction {
+  id                String       @id @default(uuid()) @map("transaction_id") @db.Uuid
+  contractId        String       @map("contract_id") @db.Uuid
+  typeId            Int          @map("type_id") @db.SmallInt
+  amountCents       Int          @map("amount_cents")
+  referenceId       String       @map("reference_id") @db.VarChar(100)
+  createdAt         DateTime     @default(now()) @map("created_at") @db.Timestamptz
+
+  contract          Contract     @relation(fields: [contractId], references: [id])
+  type              EscrowTransactionType @relation(fields: [typeId], references: [id])
+
+  @@map("escrow_transactions")
+}
+
+model Wallet {
+  id                     String       @id @default(uuid()) @map("wallet_id") @db.Uuid
+  userId                 String       @unique @map("user_id") @db.Uuid
+  availableBalanceCents  Int          @default(0) @map("available_balance_cents")
+  pendingClearanceCents  Int          @default(0) @map("pending_clearance_cents")
+  currency               String       @default("USD") @db.Char(3)
+  createdAt              DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt              DateTime     @updatedAt @map("updated_at") @db.Timestamptz
+
+  user                   User         @relation(fields: [userId], references: [id])
+  transactions           WalletTransaction[]
+
+  @@map("wallets")
+}
+
+model WalletTransaction {
+  id             String       @id @default(uuid()) @map("transaction_id") @db.Uuid
+  walletId       String       @map("wallet_id") @db.Uuid
+  type           String       @db.VarChar(30)
+  amountCents    Int          @map("amount_cents")
+  description    String       @db.VarChar(255)
+  referenceId    String       @map("reference_id") @db.VarChar(100)
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz
+
+  wallet         Wallet       @relation(fields: [walletId], references: [id])
+
+  @@map("wallet_transactions")
+}
+
+// ------------------------------------------------------------------------------
+// Domain 5: Clinical Deliverables & Verified WebRTC Appointments
+// ------------------------------------------------------------------------------
+
+model DietPlan {
+  id          String       @id @default(uuid()) @map("plan_id") @db.Uuid
+  contractId  String       @map("contract_id") @db.Uuid
+  weekNumber  Int          @map("week_number") @db.SmallInt
+  title       String       @db.VarChar(150)
+  payloadJson Json         @map("payload_json")
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz
+
+  contract    Contract     @relation(fields: [contractId], references: [id])
+
+  @@unique([contractId, weekNumber])
+  @@map("diet_plans")
+}
+
+model Appointment {
+  id                        String       @id @default(uuid()) @map("appointment_id") @db.Uuid
+  contractId                String       @map("contract_id") @db.Uuid
+  scheduledAt               DateTime     @map("scheduled_at") @db.Timestamptz
+  durationMinutes           Int          @default(45) @map("duration_minutes") @db.SmallInt
+  status                    String       @default("SCHEDULED") @db.VarChar(30)
+  dietitianPresenceSeconds  Int          @default(0) @map("dietitian_presence_seconds")
+  clientPresenceSeconds     Int          @default(0) @map("client_presence_seconds")
+  isVerified                Boolean      @default(false) @map("is_verified")
+  createdAt                 DateTime     @default(now()) @map("created_at") @db.Timestamptz
+
+  contract                  Contract     @relation(fields: [contractId], references: [id])
+
+  @@map("appointments")
+}
+
+// ------------------------------------------------------------------------------
+// Domain 6: Disciplinary Tribunal & Three-Strike Sanctions
+// ------------------------------------------------------------------------------
+
+model DisputeTicket {
+  id             String       @id @default(uuid()) @map("complaint_id") @db.Uuid
+  contractId     String       @map("contract_id") @db.Uuid
+  initiatorId    String       @map("initiator_id") @db.Uuid
+  respondentId   String       @map("respondent_id") @db.Uuid
+  reason         String       @db.Text
+  status         String       @default("OPEN") @db.VarChar(30)
+  arbitratorId   String?      @map("arbitrator_id") @db.Uuid
+  outcome        String?      @db.VarChar(40)
+  strikeAssigned Boolean      @default(false) @map("strike_assigned")
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  resolvedAt     DateTime?    @map("resolved_at") @db.Timestamptz
+
+  contract       Contract     @relation(fields: [contractId], references: [id])
+  initiator      User         @relation("InitiatedDisputes", fields: [initiatorId], references: [id])
+  respondent     User         @relation("ReceivedDisputes", fields: [respondentId], references: [id])
+  evidence       DisputeEvidence[]
+  strikes        StrikeRecord[]
+
+  @@map("dispute_tickets")
+}
+
+model DisputeEvidence {
+  id           String       @id @default(uuid()) @map("evidence_id") @db.Uuid
+  disputeId    String       @map("dispute_id") @db.Uuid
+  uploaderId   String       @map("uploader_id") @db.Uuid
+  fileUrl      String       @map("file_url") @db.VarChar(500)
+  description  String       @db.Text
+  uploadedAt   DateTime     @default(now()) @map("uploaded_at") @db.Timestamptz
+
+  dispute      DisputeTicket @relation(fields: [disputeId], references: [id])
+
+  @@map("dispute_evidence_files")
+}
+
+model StrikeRecord {
+  id           String       @id @default(uuid()) @map("strike_id") @db.Uuid
+  userId       String       @map("user_id") @db.Uuid
+  strikeNumber Int          @map("strike_number") @db.SmallInt
+  reason       String       @db.Text
+  disputeId    String?      @map("complaint_id") @db.Uuid
+  issuedAt     DateTime     @default(now()) @map("issued_at") @db.Timestamptz
+
+  user         User         @relation(fields: [userId], references: [id])
+  dispute      DisputeTicket? @relation(fields: [disputeId], references: [id])
+
+  @@map("strike_records")
+}
