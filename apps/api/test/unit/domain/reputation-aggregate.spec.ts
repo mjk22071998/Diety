@@ -142,6 +142,7 @@ describe('Task 2.3: Reputation & Level Ranking Aggregate (Pure TDD)', () => {
 
       profile.applyStrike('First warning for unexcused consultation delay');
       expect(profile.strikesCount).toBe(1);
+      expect(profile.strikeReasons).toContain('First warning for unexcused consultation delay');
       expect(profile.tier).toBe(DietitianTier.GOLD);
       expect(profile.isBiddingSuspended).toBe(false);
     });

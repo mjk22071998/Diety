@@ -39,6 +39,7 @@ export class ConsultationSession {
   private _status: ConsultationStatus;
   private _dietitianPresenceSeconds = 0;
   private _clientPresenceSeconds = 0;
+  private _cancellationReason?: string | undefined;
 
   private constructor(props: CreateConsultationSessionProps) {
     if (!props.id || !props.contractId || !props.dietitianId || !props.clientId) {
@@ -80,6 +81,18 @@ export class ConsultationSession {
 
   public isVerified(): boolean {
     return this._status === ConsultationStatus.VERIFIED;
+  }
+
+  public get cancellationReason(): string | undefined {
+    return this._cancellationReason;
+  }
+
+  public cancelSession(reason?: string): void {
+    if (this._status === ConsultationStatus.VERIFIED) {
+      throw new DomainException('Cannot cancel an already verified session', 'SESSION_ALREADY_VERIFIED');
+    }
+    this._status = ConsultationStatus.CANCELLED;
+    this._cancellationReason = reason;
   }
 
   /**

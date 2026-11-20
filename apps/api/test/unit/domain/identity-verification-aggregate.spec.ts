@@ -46,6 +46,8 @@ describe('Task 2.4: Identity & Dual-Pathway Credential Verification Aggregate (P
       verification.approveLicense('Audit: Confirmed active on California Medical Board');
       expect(verification.status).toBe(VerificationStatus.APPROVED);
       expect(verification.isApprovedForBidding()).toBe(true);
+      expect(verification.reviewNotes).toContain('Confirmed active');
+      expect(verification.reviewedAt).toBeInstanceOf(Date);
     });
 
     it('should reject license and bar bidding when registry audit fails', () => {

@@ -27,6 +27,16 @@ describe('Task 3.3: Valkey BullMQ Queue Adapter & Worker (Pure TDD)', () => {
   });
 
   describe('ValkeyBullMQAdapter', () => {
+    it('should initialize with default connection and queueFactory when not passed', async () => {
+      const mockQueueFactory = vi.fn().mockReturnValue(mockEscrowQueue);
+      const adapter = new ValkeyBullMQAdapter({
+        queueFactory: mockQueueFactory
+      });
+
+      expect(mockQueueFactory).toHaveBeenCalledTimes(2);
+      await adapter.close();
+    });
+
     it('should schedule escrow clearing with correct 72h delay and jobId', async () => {
       const adapter = new ValkeyBullMQAdapter({
         connection: mockRedis,
@@ -157,7 +167,7 @@ describe('Task 3.3: Valkey BullMQ Queue Adapter & Worker (Pure TDD)', () => {
         close: vi.fn().mockResolvedValue(undefined)
       } as unknown as Worker;
 
-      const mockWorkerFactory = vi.fn().mockImplementation((name, processor, opts) => {
+      const mockWorkerFactory = vi.fn().mockImplementation((_name, processor, _opts) => {
         registeredProcessor = processor;
         return mockWorkerInstance;
       });
@@ -185,6 +195,22 @@ describe('Task 3.3: Valkey BullMQ Queue Adapter & Worker (Pure TDD)', () => {
 
       await worker.close();
       expect(mockWorkerInstance.close).toHaveBeenCalled();
+    });
+
+    it('should support initialization with default redis connection when omitted', async () => {
+      const mockWorkerInstance = {
+        close: vi.fn().mockResolvedValue(undefined)
+      } as unknown as Worker;
+
+      const mockWorkerFactory = vi.fn().mockReturnValue(mockWorkerInstance);
+
+      const worker = new EscrowClearingWorker({
+        workerFactory: mockWorkerFactory,
+        onClearContract: vi.fn()
+      });
+
+      expect(mockWorkerFactory).toHaveBeenCalled();
+      await worker.close();
     });
   });
 });

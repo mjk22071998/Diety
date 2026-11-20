@@ -139,5 +139,17 @@ describe('Task 2.5: Clinical Consultation & Attendance Invariant Aggregate (Pure
       expect(() => session.claimClientNoShow()).toThrow(DomainException);
       expect(() => session.claimDietitianNoShow()).toThrow(DomainException);
     });
+
+    it('should reject claimDietitianNoShow if client waited less than 15 minutes', () => {
+      const session = createBaseSession();
+      session.recordPresence('client-1', 600); // 10 minutes only
+      expect(() => session.claimDietitianNoShow()).toThrow(DomainException);
+    });
+
+    it('should reject recording presence if consultation is cancelled', () => {
+      const session = createBaseSession();
+      session.cancelSession('Client cancelled');
+      expect(() => session.recordPresence('client-1', 300)).toThrow(DomainException);
+    });
   });
 });

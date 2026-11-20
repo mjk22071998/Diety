@@ -122,6 +122,7 @@ describe('Task 2.6: Disciplinary Tribunal & Dispute Aggregate (Pure TDD)', () =>
       });
 
       expect(ticket.status).toBe(DisputeStatus.RESOLVED);
+      expect(ticket.resolvedAt).toBeInstanceOf(Date);
       expect(ruling.outcome).toBe(RulingOutcome.REFUND_CLIENT_FULL);
       expect(ruling.assignStrikeToRespondent).toBe(true);
     });

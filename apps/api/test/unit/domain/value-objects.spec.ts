@@ -157,7 +157,9 @@ describe('Task 2.1: Domain Value Objects (Pure TDD)', () => {
 
   describe('ProposalLimit Value Object', () => {
     it('should return correct default limits per tier name', () => {
-      expect(ProposalLimit.forLevel('NEW').maxActiveProposals).toBe(25);
+      const newLimit = ProposalLimit.forLevel('NEW');
+      expect(newLimit.maxActiveProposals).toBe(25);
+      expect(newLimit.tier).toBe('NEW');
       expect(ProposalLimit.forLevel('SILVER').maxActiveProposals).toBe(35);
       expect(ProposalLimit.forLevel('GOLD').maxActiveProposals).toBe(50);
       expect(ProposalLimit.forLevel('PLATINUM').maxActiveProposals).toBe(75);

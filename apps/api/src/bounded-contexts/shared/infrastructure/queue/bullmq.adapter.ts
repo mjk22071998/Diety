@@ -10,6 +10,7 @@ export interface BullMQAdapterConfig {
   connection?: Redis;
   escrowQueue?: Queue;
   noShowQueue?: Queue;
+  queueFactory?: (name: string, opts: { connection: Redis }) => Queue;
 }
 
 /**
@@ -39,15 +40,19 @@ export class ValkeyBullMQAdapter implements IQueuePort {
       });
     }
 
+    const createQueue =
+      config.queueFactory ||
+      ((name, opts) => new Queue(name, opts));
+
     this.escrowClearingQueue =
       config.escrowQueue ||
-      new Queue('escrow-clearing-queue', {
+      createQueue('escrow-clearing-queue', {
         connection: this.redisConnection
       });
 
     this.noShowQueue =
       config.noShowQueue ||
-      new Queue('consultation-no-show-queue', {
+      createQueue('consultation-no-show-queue', {
         connection: this.redisConnection
       });
   }
