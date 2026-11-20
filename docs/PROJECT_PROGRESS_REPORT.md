@@ -20,17 +20,17 @@ All foundational architecture, functional requirements, relational database desi
 
 | Artifact / Document | File Path | Status | Key Deliverables & Specifications Included |
 | :--- | :--- | :--- | :--- |
-| **Software Requirements Specification (SRS)** | [`SOFTWARE_REQUIREMENTS_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/SOFTWARE_REQUIREMENTS_SPECIFICATION.md) | ✅ Complete | 12 Functional Requirements (FR-1 to FR-12), 4 User Roles, Dual-Pathway Verification, Escrow Invariants, Mathematical Rules. |
-| **Software Design Specification (SDS)** | [`SOFTWARE_DESIGN_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/SOFTWARE_DESIGN_SPECIFICATION.md) | ✅ Complete | 4 Core Subsystems, 8 Sequence Diagrams, 4 State Machine Charts, Security & Crypto Specifications, WebRTC P2P Protocol. |
-| **3NF Relational Database Schema** | [`DATABASE_SCHEMA.md`](file:///d:/FullStackProjects/Diety/DATABASE_SCHEMA.md) | ✅ Complete | 32 Normalized Tables across 6 Bounded Contexts, Foreign Key Relationships, Compound Indexes, Double-Entry Ledger Schema. |
-| **Code Architecture & Principles** | [`CODE_ARCHITECTURE_AND_PRINCIPLES.md`](file:///d:/FullStackProjects/Diety/CODE_ARCHITECTURE_AND_PRINCIPLES.md) | ✅ Complete | 14 Classic Books Matrix, Hexagonal Layers, Deep Module Rules, Immutability & Value Objects, Anti-Corruption Layers. |
-| **Code Specification & Dependencies** | [`CODE_SPECIFICATION_AND_DEPENDENCIES.md`](file:///d:/FullStackProjects/Diety/CODE_SPECIFICATION_AND_DEPENDENCIES.md) | ✅ Complete | Monorepo Topology, TypeScript 7.0 Strict Config, RFC 7807 Error Contract, Exhaustive 33-Package Live Version Matrix. |
-| **C4 Architecture Diagrams** | [`ARCHITECTURE_C4_DIAGRAMS.md`](file:///d:/FullStackProjects/Diety/ARCHITECTURE_C4_DIAGRAMS.md) | ✅ Complete | System Context (Level 1), Container Topology (Level 2), API Components (Level 3), Behavioral Sequence Workflows (Level 4). |
-| **Turnkey Implementation Plan** | [`DEVELOPMENT_PLAN.md`](file:///d:/FullStackProjects/Diety/DEVELOPMENT_PLAN.md) | ✅ Complete | 8-Phase Stepwise TDD Roadmap, Task Interfaces, File Maps, Review Focus Scenarios, Execution Handoff Protocols. |
-| **Git Workflow & Branching Strategy** | [`GIT_WORKFLOW_AND_CONVENTIONS.md`](file:///d:/FullStackProjects/Diety/GIT_WORKFLOW_AND_CONVENTIONS.md) | ✅ Complete | Trunk-based development, branch lifecycles, Conventional Commits v1.0, squash-merge rules, Husky hooks. |
+| **Software Requirements Specification (SRS)** | [`SOFTWARE_REQUIREMENTS_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/docs/SOFTWARE_REQUIREMENTS_SPECIFICATION.md) | ✅ Complete | 12 Functional Requirements (FR-1 to FR-12), 4 User Roles, Dual-Pathway Verification, Escrow Invariants, Mathematical Rules. |
+| **Software Design Specification (SDS)** | [`SOFTWARE_DESIGN_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/docs/SOFTWARE_DESIGN_SPECIFICATION.md) | ✅ Complete | 4 Core Subsystems, 8 Sequence Diagrams, 4 State Machine Charts, Security & Crypto Specifications, WebRTC P2P Protocol. |
+| **3NF Relational Database Schema** | [`DATABASE_SCHEMA.md`](file:///d:/FullStackProjects/Diety/docs/DATABASE_SCHEMA.md) | ✅ Complete | 32 Normalized Tables across 6 Bounded Contexts, Foreign Key Relationships, Compound Indexes, Double-Entry Ledger Schema. |
+| **Code Architecture & Principles** | [`CODE_ARCHITECTURE_AND_PRINCIPLES.md`](file:///d:/FullStackProjects/Diety/docs/CODE_ARCHITECTURE_AND_PRINCIPLES.md) | ✅ Complete | 14 Classic Books Matrix, Hexagonal Layers, Deep Module Rules, Immutability & Value Objects, Anti-Corruption Layers. |
+| **Code Specification & Dependencies** | [`CODE_SPECIFICATION_AND_DEPENDENCIES.md`](file:///d:/FullStackProjects/Diety/docs/CODE_SPECIFICATION_AND_DEPENDENCIES.md) | ✅ Complete | Monorepo Topology, TypeScript 7.0 Strict Config, RFC 7807 Error Contract, Exhaustive 33-Package Live Version Matrix. |
+| **C4 Architecture Diagrams** | [`ARCHITECTURE_C4_DIAGRAMS.md`](file:///d:/FullStackProjects/Diety/docs/ARCHITECTURE_C4_DIAGRAMS.md) | ✅ Complete | System Context (Level 1), Container Topology (Level 2), API Components (Level 3), Behavioral Sequence Workflows (Level 4). |
+| **Turnkey Implementation Plan** | [`DEVELOPMENT_PLAN.md`](file:///d:/FullStackProjects/Diety/docs/DEVELOPMENT_PLAN.md) | ✅ Complete | 8-Phase Stepwise TDD Roadmap, Task Interfaces, File Maps, Review Focus Scenarios, Execution Handoff Protocols. |
+| **Git Workflow & Branching Strategy** | [`GIT_WORKFLOW_AND_CONVENTIONS.md`](file:///d:/FullStackProjects/Diety/docs/GIT_WORKFLOW_AND_CONVENTIONS.md) | ✅ Complete | Trunk-based development, branch lifecycles, Conventional Commits v1.0, squash-merge rules, Husky hooks. |
 | **7-Day Dependency Auditor Script** | [`scripts/check-dependency-updates.mjs`](file:///d:/FullStackProjects/Diety/scripts/check-dependency-updates.mjs) | ✅ Verified | Automated Node.js audit script verifying live npm registry dist-tags against target pins. |
 | **7-Day Recurring CI Workflow** | [`.github/workflows/weekly-dependency-check.yml`](file:///d:/FullStackProjects/Diety/.github/workflows/weekly-dependency-check.yml) | ✅ Created | Automated weekly GitHub Action running every Monday at 09:00 UTC. |
-| **Context Dump & Memory Vault** | [`PROJECT_CONTEXT_DUMP.md`](file:///d:/FullStackProjects/Diety/PROJECT_CONTEXT_DUMP.md) | ✅ Created | Complete historical and technical context dump for zero-loss agentic continuity. |
+| **Context Dump & Memory Vault** | [`PROJECT_CONTEXT_DUMP.md`](file:///d:/FullStackProjects/Diety/docs/PROJECT_CONTEXT_DUMP.md) | ✅ Created | Complete historical and technical context dump for zero-loss agentic continuity. |
 
 ---
 
@@ -83,7 +83,7 @@ All foundational architecture, functional requirements, relational database desi
 
 ## 6. Immediate Next Steps
 
-1. **User Approval of Development Plan:** Review [`DEVELOPMENT_PLAN.md`](file:///d:/FullStackProjects/Diety/DEVELOPMENT_PLAN.md) and confirm execution mode (Subagent-driven vs Native).
+1. **User Approval of Development Plan:** Review [`DEVELOPMENT_PLAN.md`](file:///d:/FullStackProjects/Diety/docs/DEVELOPMENT_PLAN.md) and confirm execution mode (Subagent-driven vs Native).
 2. **Commence Phase 1 Execution:**
    - Initialize pnpm monorepo root and Turborepo pipeline configuration.
    - Populate `@diety/types` and `@diety/validation` shared packages.

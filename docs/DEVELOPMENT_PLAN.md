@@ -15,12 +15,12 @@
 - Local Services ($0 Budget): PostgreSQL 16/19, Redis 8, MinIO S3, Ollama (Llama 3.2 3B & Qwen 2.5 7B), Google STUN
 
 **Specs & Foundations:**
-- [`SOFTWARE_REQUIREMENTS_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/SOFTWARE_REQUIREMENTS_SPECIFICATION.md)
-- [`SOFTWARE_DESIGN_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/SOFTWARE_DESIGN_SPECIFICATION.md)
-- [`DATABASE_SCHEMA.md`](file:///d:/FullStackProjects/Diety/DATABASE_SCHEMA.md)
-- [`CODE_ARCHITECTURE_AND_PRINCIPLES.md`](file:///d:/FullStackProjects/Diety/CODE_ARCHITECTURE_AND_PRINCIPLES.md)
-- [`CODE_SPECIFICATION_AND_DEPENDENCIES.md`](file:///d:/FullStackProjects/Diety/CODE_SPECIFICATION_AND_DEPENDENCIES.md)
-- [`ARCHITECTURE_C4_DIAGRAMS.md`](file:///d:/FullStackProjects/Diety/ARCHITECTURE_C4_DIAGRAMS.md)
+- [`SOFTWARE_REQUIREMENTS_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/docs/SOFTWARE_REQUIREMENTS_SPECIFICATION.md)
+- [`SOFTWARE_DESIGN_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/docs/SOFTWARE_DESIGN_SPECIFICATION.md)
+- [`DATABASE_SCHEMA.md`](file:///d:/FullStackProjects/Diety/docs/DATABASE_SCHEMA.md)
+- [`CODE_ARCHITECTURE_AND_PRINCIPLES.md`](file:///d:/FullStackProjects/Diety/docs/CODE_ARCHITECTURE_AND_PRINCIPLES.md)
+- [`CODE_SPECIFICATION_AND_DEPENDENCIES.md`](file:///d:/FullStackProjects/Diety/docs/CODE_SPECIFICATION_AND_DEPENDENCIES.md)
+- [`ARCHITECTURE_C4_DIAGRAMS.md`](file:///d:/FullStackProjects/Diety/docs/ARCHITECTURE_C4_DIAGRAMS.md)
 
 ---
 
@@ -479,7 +479,7 @@
 
 ## Execution Handoff
 
-Plan complete and saved to [`DEVELOPMENT_PLAN.md`](file:///d:/FullStackProjects/Diety/DEVELOPMENT_PLAN.md).
+Plan complete and saved to [`DEVELOPMENT_PLAN.md`](file:///d:/FullStackProjects/Diety/docs/DEVELOPMENT_PLAN.md).
 
 Which execution approach would you prefer?
 - **Subagent-driven** - A fresh subagent implements each task and a fresh reviewer checks it before the next one starts, then a whole-branch review at the end. (Recommended due to the clear module boundaries across 4 apps).

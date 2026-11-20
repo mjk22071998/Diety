@@ -16,7 +16,8 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "typecheck": "turbo run typecheck"
+    "typecheck": "turbo run typecheck",
+    "deps:check": "node scripts/check-dependency-updates.mjs"
   },
   "devDependencies": {
     "eslint": "^9.20.1",

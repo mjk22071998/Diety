@@ -5,9 +5,9 @@
 **Methodology:** Hexagonal Architecture (Ports & Adapters) · Domain-Driven Design (DDD) · Deep Modules  
 **Scope:** Universal, Platform-Agnostic Code Architecture, Design Patterns, and Coding Guidelines  
 **Companion Documents:**
-- [`SOFTWARE_REQUIREMENTS_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/SOFTWARE_REQUIREMENTS_SPECIFICATION.md) (SRS)
-- [`SOFTWARE_DESIGN_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/SOFTWARE_DESIGN_SPECIFICATION.md) (SDS)
-- [`DATABASE_SCHEMA.md`](file:///d:/FullStackProjects/Diety/DATABASE_SCHEMA.md) (3NF Relational Database Schema)
+- [`SOFTWARE_REQUIREMENTS_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/docs/SOFTWARE_REQUIREMENTS_SPECIFICATION.md) (SRS)
+- [`SOFTWARE_DESIGN_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/docs/SOFTWARE_DESIGN_SPECIFICATION.md) (SDS)
+- [`DATABASE_SCHEMA.md`](file:///d:/FullStackProjects/Diety/docs/DATABASE_SCHEMA.md) (3NF Relational Database Schema)
 
 ---
 

@@ -5,9 +5,9 @@
 **Specification Standards:** Conventional Commits v1.0.0 · Trunk-Based Feature Branching · Linear Git History  
 **Scope:** Universal Source Code Management, Branch Lifecycles, Commit Hygiene, and Pull Request (PR) Quality Gates  
 **Companion Documents:**
-- [`DEVELOPMENT_PLAN.md`](file:///d:/FullStackProjects/Diety/DEVELOPMENT_PLAN.md) (Implementation Roadmap)
-- [`CODE_SPECIFICATION_AND_DEPENDENCIES.md`](file:///d:/FullStackProjects/Diety/CODE_SPECIFICATION_AND_DEPENDENCIES.md) (Coding Standards)
-- [`PROJECT_PROGRESS_REPORT.md`](file:///d:/FullStackProjects/Diety/PROJECT_PROGRESS_REPORT.md) (Status Tracking)
+- [`DEVELOPMENT_PLAN.md`](file:///d:/FullStackProjects/Diety/docs/DEVELOPMENT_PLAN.md) (Implementation Roadmap)
+- [`CODE_SPECIFICATION_AND_DEPENDENCIES.md`](file:///d:/FullStackProjects/Diety/docs/CODE_SPECIFICATION_AND_DEPENDENCIES.md) (Coding Standards)
+- [`PROJECT_PROGRESS_REPORT.md`](file:///d:/FullStackProjects/Diety/docs/PROJECT_PROGRESS_REPORT.md) (Status Tracking)
 
 ---
 

@@ -239,12 +239,12 @@ The platform enforces the latest verified releases as of late 2026:
 
 All files are located in `d:\FullStackProjects\Diety\`:
 
-1. [`SOFTWARE_REQUIREMENTS_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/SOFTWARE_REQUIREMENTS_SPECIFICATION.md) - Formal SRS document.
-2. [`SOFTWARE_DESIGN_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/SOFTWARE_DESIGN_SPECIFICATION.md) - Formal SDS document with Sequence & State Machine diagrams.
-3. [`DATABASE_SCHEMA.md`](file:///d:/FullStackProjects/Diety/DATABASE_SCHEMA.md) - 3NF database schema with 32 tables.
-4. [`CODE_ARCHITECTURE_AND_PRINCIPLES.md`](file:///d:/FullStackProjects/Diety/CODE_ARCHITECTURE_AND_PRINCIPLES.md) - 14-Book architecture principles & Hexagonal rules.
-5. [`CODE_SPECIFICATION_AND_DEPENDENCIES.md`](file:///d:/FullStackProjects/Diety/CODE_SPECIFICATION_AND_DEPENDENCIES.md) - Monorepo conventions, TypeScript strict rules, dependencies & docs.
-6. [`ARCHITECTURE_C4_DIAGRAMS.md`](file:///d:/FullStackProjects/Diety/ARCHITECTURE_C4_DIAGRAMS.md) - Complete C4 model structural diagrams (Levels 1-4).
-7. [`DEVELOPMENT_PLAN.md`](file:///d:/FullStackProjects/Diety/DEVELOPMENT_PLAN.md) - Stepwise TDD implementation roadmap across 8 phases.
-8. [`PROJECT_PROGRESS_REPORT.md`](file:///d:/FullStackProjects/Diety/PROJECT_PROGRESS_REPORT.md) - Milestone status, completion matrix, and risk register.
-9. [`PROJECT_CONTEXT_DUMP.md`](file:///d:/FullStackProjects/Diety/PROJECT_CONTEXT_DUMP.md) - This document: complete memory and context dump.
+1. [`SOFTWARE_REQUIREMENTS_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/docs/SOFTWARE_REQUIREMENTS_SPECIFICATION.md) - Formal SRS document.
+2. [`SOFTWARE_DESIGN_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/docs/SOFTWARE_DESIGN_SPECIFICATION.md) - Formal SDS document with Sequence & State Machine diagrams.
+3. [`DATABASE_SCHEMA.md`](file:///d:/FullStackProjects/Diety/docs/DATABASE_SCHEMA.md) - 3NF database schema with 32 tables.
+4. [`CODE_ARCHITECTURE_AND_PRINCIPLES.md`](file:///d:/FullStackProjects/Diety/docs/CODE_ARCHITECTURE_AND_PRINCIPLES.md) - 14-Book architecture principles & Hexagonal rules.
+5. [`CODE_SPECIFICATION_AND_DEPENDENCIES.md`](file:///d:/FullStackProjects/Diety/docs/CODE_SPECIFICATION_AND_DEPENDENCIES.md) - Monorepo conventions, TypeScript strict rules, dependencies & docs.
+6. [`ARCHITECTURE_C4_DIAGRAMS.md`](file:///d:/FullStackProjects/Diety/docs/ARCHITECTURE_C4_DIAGRAMS.md) - Complete C4 model structural diagrams (Levels 1-4).
+7. [`DEVELOPMENT_PLAN.md`](file:///d:/FullStackProjects/Diety/docs/DEVELOPMENT_PLAN.md) - Stepwise TDD implementation roadmap across 8 phases.
+8. [`PROJECT_PROGRESS_REPORT.md`](file:///d:/FullStackProjects/Diety/docs/PROJECT_PROGRESS_REPORT.md) - Milestone status, completion matrix, and risk register.
+9. [`PROJECT_CONTEXT_DUMP.md`](file:///d:/FullStackProjects/Diety/docs/PROJECT_CONTEXT_DUMP.md) - This document: complete memory and context dump.

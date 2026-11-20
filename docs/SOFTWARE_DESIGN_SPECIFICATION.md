@@ -4,8 +4,8 @@
 **Document Version:** 1.0  
 **Design Standard:** Platform-Agnostic, Domain-Driven Architectural Design  
 **Companion Documents:**
-- [`SOFTWARE_REQUIREMENTS_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/SOFTWARE_REQUIREMENTS_SPECIFICATION.md) (Functional & Non-Functional Requirements)
-- [`DATABASE_SCHEMA.md`](file:///d:/FullStackProjects/Diety/DATABASE_SCHEMA.md) (Complete 3NF Relational Database Schema & DDL)
+- [`SOFTWARE_REQUIREMENTS_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/docs/SOFTWARE_REQUIREMENTS_SPECIFICATION.md) (Functional & Non-Functional Requirements)
+- [`DATABASE_SCHEMA.md`](file:///d:/FullStackProjects/Diety/docs/DATABASE_SCHEMA.md) (Complete 3NF Relational Database Schema & DDL)
 
 ---
 
