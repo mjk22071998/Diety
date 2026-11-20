@@ -17,7 +17,7 @@
 
 **Diety** is an enterprise-grade freelance marketplace platform connecting individuals seeking clinical nutrition guidance with verified dietitians. Built specifically to eliminate the credentialing barriers of conventional freelance platforms, Diety enforces clinical safety through a **dual-pathway verification engine**, protects transactions with an **immutable double-entry escrow ledger**, conducts encrypted **peer-to-peer WebRTC video consultations**, and arbitrates disputes through a **three-strike disciplinary tribunal**.
 
-The entire platform is engineered to run on a **$0 academic operating budget**, replacing costly cloud APIs with containerized local services (PostgreSQL 16/19, Valkey 8, MinIO S3), local host LLMs (Ollama with Llama 3.2 3B and Qwen 2.5 7B), and zero-cost public Google STUN for WebRTC NAT traversal.
+The entire platform is engineered to run on a **$0 academic operating budget**, replacing costly cloud APIs with containerized local services (PostgreSQL 16/19, Valkey 8, MinIO S3), local host LLMs (Ollama with Llama 3.1 8B for patient simulation and DeepSeek-R1 8B for 92.5% USMLE-grade clinical reasoning), and zero-cost public Google STUN for WebRTC NAT traversal.
 
 ---
 
@@ -73,7 +73,7 @@ diety/
 | **Web Portal (`apps/web`)** | Next.js (App Router), React, Tailwind CSS, TanStack Query | Next.js `16.4+`, React `19.3+`, Tailwind `4.3+`, Query `5.108+`| [nextjs.org](https://nextjs.org) · [react.dev](https://react.dev) |
 | **Admin Console (`apps/admin`)**| Next.js, TanStack Table, Recharts, Radix UI | Next.js `16.4+`, Table `9.3+`, Recharts `3.11+` | [tanstack.com/table](https://tanstack.com/table) |
 | **Mobile App (`apps/mobile`)** | Expo, React Native, Expo Router, React Native WebRTC | Expo `58.0+`, RN `0.88+`, Router `58.0+`, WebRTC `155.0+` | [docs.expo.dev](https://docs.expo.dev) |
-| **Local Infrastructure ($0)** | PostgreSQL 16/19, Valkey 8, MinIO S3, Ollama (Llama 3.2 & Qwen 2.5) | Docker Compose Services, Ollama `v0.40+` | [postgresql.org](https://postgresql.org) · [valkey.io](https://valkey.io) · [ollama.ai](https://ollama.ai) |
+| **Local Infrastructure ($0)** | PostgreSQL 16/19, Valkey 8, MinIO S3, Ollama (Llama 3.1 & DeepSeek-R1) | Docker Compose Services, Ollama `v0.40+` | [postgresql.org](https://postgresql.org) · [valkey.io](https://valkey.io) · [ollama.ai](https://ollama.ai) |
 
 ---
 
@@ -102,8 +102,9 @@ cp .env.example .env
 docker compose -f docker/docker-compose.yml up -d
 
 # 5. Download local Ollama AI simulation models
-ollama pull llama3.2:3b
-ollama pull qwen2.5:7b
+ollama pull llama3.1:8b
+ollama pull deepseek-r1:8b
+# (Optional low-VRAM fallbacks: ollama pull llama3.2:3b && ollama pull qwen2.5:7b)
 ```
 
 ### 4.3 Running the Monorepo

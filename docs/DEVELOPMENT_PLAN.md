@@ -12,7 +12,7 @@
 - Backend: NestJS 12, Prisma ORM 7, BullMQ 6, ioredis 6, Socket.io 4, Argon2, Zod 4
 - Web & Admin: Next.js 16 (App Router), React 19, Tailwind CSS 4, Radix UI, TanStack Query 5, TanStack Table 9, Recharts 3, simple-peer
 - Mobile: Expo SDK 58, React Native 0.88, NativeWind 4, React Native WebRTC, Expo SecureStore
-- Local Services ($0 Budget): PostgreSQL 16/19, Valkey 8, MinIO S3, Ollama (Llama 3.2 3B & Qwen 2.5 7B), Google STUN
+- Local Services ($0 Budget): PostgreSQL 16/19, Valkey 8, MinIO S3, Ollama (Llama 3.1 8B & DeepSeek-R1 8B), Google STUN
 
 **Specs & Foundations:**
 - [`SOFTWARE_REQUIREMENTS_SPECIFICATION.md`](file:///d:/FullStackProjects/Diety/docs/SOFTWARE_REQUIREMENTS_SPECIFICATION.md)
@@ -245,7 +245,7 @@
 
 **Interfaces:**
 - Consumes: `ollama` SDK (`0.6.4`), Local Ollama Daemon (`:11434`)
-- Produces: `IAISimulatorPort` implementation for patient dialogue (`llama3.2:3b`) and structured JSON rubric grading (`qwen2.5:7b`)
+- Produces: `IAISimulatorPort` implementation for patient dialogue (`llama3.1:8b`) and structured JSON clinical rubric grading with chain-of-thought medical verification (`deepseek-r1:8b` / `qwen2.5:7b`)
 
 - [ ] **Step 1: Define `IAISimulatorPort` interface in application layer**
 - [ ] **Step 2: Write integration test with mock and live Ollama fallback**

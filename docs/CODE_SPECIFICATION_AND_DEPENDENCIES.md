@@ -340,7 +340,7 @@ flowchart TD
         end
         
         subgraph LocalAIService["Local AI Inference Engine"]
-            Ollama["Ollama Daemon (:11434)<br/>Models: Llama 3.2 (3B) / Qwen 2.5 (7B)"]
+            Ollama["Ollama Daemon (:11434)<br/>Models: Llama 3.1 (8B) / DeepSeek-R1 (8B)"]
         end
         
         subgraph FreeExternal["Zero-Cost External WebRTC STUN"]
@@ -426,12 +426,13 @@ To execute the AI Clinical Simulation Exam ($0 API cost), Ollama runs natively o
 ollama serve
 
 # 2. Pull Clinical Reasoning & Patient Simulation Models
-ollama pull llama3.2:3b
-ollama pull qwen2.5:7b
+ollama pull llama3.1:8b
+ollama pull deepseek-r1:8b
+# (Optional lightweight fallbacks for <=4GB VRAM: llama3.2:3b / qwen2.5:7b)
 
 # 3. Verification of Local Endpoint
 curl http://localhost:11434/api/generate -d '{
-  "model": "llama3.2:3b",
+  "model": "llama3.1:8b",
   "prompt": "Hello Doctor",
   "stream": false
 }'
@@ -525,10 +526,13 @@ S3_SECRET_KEY=minio_local_secret
 S3_BUCKET_DOCUMENTS=diety-documents
 S3_BUCKET_EVIDENCE=diety-evidence
 
-# Local AI Engine (Ollama)
+# Local AI Engine (Ollama - $0 Academic Operating Budget)
 OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_SIMULATION_MODEL=llama3.2:3b
-OLLAMA_GRADING_MODEL=qwen2.5:7b
+# Latest conversational model for multi-turn clinical patient simulation (Meta)
+OLLAMA_SIMULATION_MODEL=llama3.1:8b
+# Latest clinical reasoning model for objective rubric grading (92.5% USMLE benchmark, CoT <think>)
+OLLAMA_GRADING_MODEL=deepseek-r1:8b
+# Lightweight fallback models for low-VRAM systems: llama3.2:3b / qwen2.5:7b
 
 # WebRTC STUN Server
 WEBRTC_STUN_SERVER=stun:stun.l.google.com:19302

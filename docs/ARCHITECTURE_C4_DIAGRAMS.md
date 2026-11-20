@@ -62,7 +62,7 @@ flowchart TB
 
     %% External Systems ($0 Academic Budget)
     subgraph ExternalSystems["External Supporting Systems ($0 Budget)"]
-        OllamaAI[["Local Ollama AI Daemon<br/>[External Local AI]<br/>Runs Llama 3.2 (3B) for patient simulation and Qwen 2.5 (7B) for clinical case grading."]]
+        OllamaAI[["Local Ollama AI Daemon<br/>[External Local AI]<br/>Runs Llama 3.1 (8B) for patient simulation and DeepSeek-R1 (8B) for clinical case grading."]]
         GoogleSTUN[["Google STUN Service<br/>[External Service]<br/>Provides free NAT traversal (stun:stun.l.google.com:19302) for P2P WebRTC media."]]
         PushService[["Mobile Push Notification Gateways<br/>[External Service]<br/>Apple APNs and Google FCM for background appointment alerts and strike warnings."]]
         LocalMinIO[["MinIO Object Storage Vault<br/>[External Local S3]<br/>Local S3-compatible storage for medical degrees, licenses, and dispute evidence."]]
@@ -138,7 +138,7 @@ flowchart TB
 
     %% External Containers
     subgraph LocalExternal["Supporting Local Containers ($0 Academic Budget)"]
-        OllamaDaemon[["Local Ollama Daemon<br/>[Ollama Server :11434]<br/>Locally hosted LLMs (Llama 3.2 3B & Qwen 2.5 7B) executing patient dialogue & grading."]]
+        OllamaDaemon[["Local Ollama Daemon<br/>[Ollama Server :11434]<br/>Locally hosted LLMs (Llama 3.1 8B & DeepSeek-R1 8B) executing patient dialogue & clinical grading."]]
         StunRelay[["Google Free STUN<br/>[stun.l.google.com:19302]<br/>Public STUN relay for NAT hole-punching."]]
     end
 
@@ -176,7 +176,7 @@ flowchart TB
 | **PostgreSQL Database**| PostgreSQL 16 Alpine | Docker (`:5432`)| 3NF authoritative relational storage for user profiles, contracts, immutable escrow ledger, and audit history. |
 | **Valkey Cache & Queue**| Valkey 8 Alpine | Docker (`:6379`)| BullMQ worker broker (72h escrow clearing, 15m no-show timer), rate-limiting, and token blacklisting. |
 | **MinIO S3 Vault** | MinIO Release 2024-11 | Docker (`:9000/9001`)| S3-compatible encrypted document storage for verification degrees, government IDs, and tribunal attachments. |
-| **Ollama AI Daemon** | Ollama v0.5+, Llama 3.2 (3B), Qwen 2.5 (7B) | Local Host (`:11434`)| Local zero-cost clinical simulation engine: generates interactive patient scenarios and automated grading. |
+| **Ollama AI Daemon** | Ollama v0.5+, Llama 3.1 (8B), DeepSeek-R1 (8B) | Local Host (`:11434`)| Local zero-cost clinical simulation engine: generates interactive patient scenarios and automated grading. |
 
 ---
 
@@ -221,7 +221,7 @@ flowchart TB
     %% Infrastructure Adapters (Outward Facing)
     subgraph InfrastructureAdapters["Infrastructure Layer (Output Adapters)"]
         PrismaAdapter["Prisma Database Adapter<br/>[Prisma ORM]<br/>Translates domain entities to 3NF SQL, implements Unit of Work."]
-        OllamaAdapter["Ollama AI Clinical Adapter<br/>[ollama-js]<br/>Calls local Llama 3.2 (patient sim) & Qwen 2.5 (rubric evaluation)."]
+        OllamaAdapter["Ollama AI Clinical Adapter<br/>[ollama-js]<br/>Calls local Llama 3.1 (patient sim) & DeepSeek-R1 (rubric reasoning)."]
         ValkeyBullMQAdapter["BullMQ Queue Adapter<br/>[ioredis / BullMQ]<br/>Manages 72h escrow clearing delays, 15m no-show timers."]
         MinIOS3Adapter["MinIO S3 Adapter<br/>[minio SDK]<br/>Uploads files, streams confidential evidence, signs presigned URLs."]
     end
@@ -292,7 +292,7 @@ sequenceDiagram
     WebApp->>Api: POST /api/v1/identity/simulation/start
     Api->>DB: Fetch randomized clinical scenario (e.g. Type 2 Diabetic + Peanut Allergy)
     DB-->>Api: Return Case Parameters & Patient Persona
-    Api->>Ollama: POST /api/chat (Model: llama3.2:3b, Persona System Prompt)
+    Api->>Ollama: POST /api/chat (Model: llama3.1:8b, Persona System Prompt)
     Ollama-->>Api: Initial patient greeting & opening complaint
     Api-->>WebApp: Stream patient dialogue to applicant
     
@@ -308,7 +308,7 @@ sequenceDiagram
     WebApp->>Api: POST /api/v1/identity/simulation/complete { finalSubmission }
     
     Note over Api,Ollama: Objective Clinical Rubric Evaluation
-    Api->>Ollama: POST /api/chat (Model: qwen2.5:7b, format: json_schema)<br/>Evaluate: Diagnostic Accuracy, Caloric Balance, Allergen Safety Gate
+    Api->>Ollama: POST /api/chat (Model: deepseek-r1:8b, format: json_schema)<br/>Evaluate: Diagnostic Accuracy, Caloric Balance, Allergen Safety Gate
     Ollama-->>Api: JSON { score: 86, allergenSafe: true, feedback: "..." }
     
     alt Score >= 75% AND Allergen Safe == true
