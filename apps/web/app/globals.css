@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/*
+ * Diety Platform — Design System CSS Variables
+ * Healthcare freelance marketplace: clinical, trustworthy, modern.
+ * Palette: slate/indigo base
+ */
+
+@theme {
+  /* Primary palette */
+  --color-diety-bg: #0f172a;           /* Near-black slate background */
+  --color-diety-surface: #1e293b;      /* Surface/card bg */
+  --color-diety-border: #334155;       /* Slate-700 borders */
+  --color-diety-muted: #64748b;        /* Slate-500 muted text */
+  --color-diety-body: #cbd5e1;         /* Slate-300 body text */
+  --color-diety-heading: #f1f5f9;      /* Slate-100 headings */
+
+  /* Indigo tint backgrounds (light mode) */
+  --color-diety-tint: #e0e7ff;         /* Indigo-100 tint bg */
+  --color-diety-tint-mid: #c7d2fe;     /* Indigo-200 */
+
+  /* Primary action */
+  --color-diety-primary: #4f46e5;      /* Indigo-600 */
+  --color-diety-primary-hover: #4338ca; /* Indigo-700 */
+  --color-diety-primary-light: #6366f1; /* Indigo-500 */
+
+  /* Success / verified states */
+  --color-diety-success: #10b981;      /* Emerald-500 — verified badge */
+  --color-diety-success-dark: #059669;  /* Emerald-600 */
+
+  /* Warning / caution */
+  --color-diety-warning: #f59e0b;      /* Amber-500 */
+  --color-diety-danger: #ef4444;       /* Red-500 */
+
+  /* Tier badge colors */
+  --color-tier-new: #64748b;           /* Slate-500 — new/unverified */
+  --color-tier-silver: #94a3b8;        /* Slate-400 */
+  --color-tier-gold: #d97706;          /* Amber-600 */
+  --color-tier-platinum: #7c3aed;      /* Violet-700 — premium */
+
+  /* Typography */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Lora", ui-serif, Georgia, serif;
+}
+
+:root {
+  color-scheme: dark light;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #f8fafc; /* slate-50 for light mode default */
+  color: #1e293b;             /* slate-800 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* Data-dense table baseline */
+table {
+  font-size: 0.875rem; /* 14px */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Focus ring — accessible, clinical */
+:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
+/* Scrollbar — subtle */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
