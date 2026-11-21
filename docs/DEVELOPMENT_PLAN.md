@@ -490,12 +490,12 @@
 - Consumes: Expo SDK 58, React Native 0.88, NativeWind 4
 - Produces: Cross-platform mobile shell with biometric login and token hydration
 
-- [ ] **Step 1: Scaffold Expo SDK 58 project with Expo Router v58**
-- [ ] **Step 2: Configure NativeWind v4 styling and install Lucide mobile icons**
-- [ ] **Step 3: Implement encrypted JWT token storage using `expo-secure-store`**
-- [ ] **Step 4: Implement biometric sign-in hook via `expo-local-authentication`**
-- [ ] **Step 5: Build mobile native tabs for Client and Dietitian roles**
-- [ ] **Step 6: Commit:** `git commit -m "feat(mobile): scaffold expo 58 mobile app with securestore biometrics"`
+- [x] **Step 1: Scaffold Expo SDK 58 project with Expo Router v58**
+- [x] **Step 2: Configure NativeWind v4 styling and install Lucide mobile icons**
+- [x] **Step 3: Implement encrypted JWT token storage using `expo-secure-store`**
+- [x] **Step 4: Implement biometric sign-in hook via `expo-local-authentication`**
+- [x] **Step 5: Build mobile native tabs for Client and Dietitian roles**
+- [x] **Step 6: Commit:** `git commit -m "feat(mobile): scaffold expo 58 mobile app with securestore biometrics"`
 
 #### Task 7.2: Native WebRTC Consultation Screen
 **Files:**
@@ -507,11 +507,11 @@
 - Consumes: `react-native-webrtc` (`155.0.1`), `socket.io-client`
 - Produces: Native RTCView video streams, camera flip/mute controls, background audio handling
 
-- [ ] **Step 1: Configure iOS and Android native permissions for Camera and Microphone**
-- [ ] **Step 2: Implement `useNativeWebRTC` managing native RTCView streams and signaling events**
-- [ ] **Step 3: Build `ConsultationCall` component with call duration indicator and attendance pings**
-- [ ] **Step 4: Test call establishment between Mobile and Web in development build**
-- [ ] **Step 5: Commit:** `git commit -m "feat(mobile): implement native webrtc video consultation screen"`
+- [x] **Step 1: Configure iOS and Android native permissions for Camera and Microphone**
+- [x] **Step 2: Implement `useNativeWebRTC` managing native RTCView streams and signaling events**
+- [x] **Step 3: Build `ConsultationCall` component with call duration indicator and attendance pings**
+- [x] **Step 4: Test call establishment between Mobile and Web in development build**
+- [x] **Step 5: Commit:** `git commit -m "feat(mobile): implement native webrtc video consultation screen"`
 
 ---
 
