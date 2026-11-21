@@ -14,6 +14,12 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "dev:api": "pnpm --filter @diety/api start",
+    "dev:web": "pnpm --filter @diety/web dev",
+    "dev:admin": "pnpm --filter @diety/admin dev",
+    "start:api": "pnpm --filter @diety/api start",
+    "start:web": "pnpm --filter @diety/web start",
+    "start:admin": "pnpm --filter @diety/admin start",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "test:e2e": "playwright test",
