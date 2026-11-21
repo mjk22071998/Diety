@@ -378,12 +378,12 @@
 - Consumes: Next.js 16, React 19, Tailwind CSS 4, Radix UI primitives
 - Produces: Accessible shared component library, theme provider, QueryClientProvider
 
-- [ ] **Step 1: Scaffold Next.js 16 App Router project with Turbopack**
-- [ ] **Step 2: Configure Tailwind CSS 4 and import shadcn/ui primitives**
-- [ ] **Step 3: Configure TanStack Query v5 provider with hydration boundary**
-- [ ] **Step 4: Build navigation headers and responsive layouts for Client and Dietitian roles**
-- [ ] **Step 5: Verify build succeeds**
-- [ ] **Step 6: Commit:** `git commit -m "feat(web): scaffold next.js 16 app router and design system"`
+- [x] **Step 1: Scaffold Next.js 16 App Router project with Turbopack**
+- [x] **Step 2: Configure Tailwind CSS 4 and import shadcn/ui primitives**
+- [x] **Step 3: Configure TanStack Query v5 provider with hydration boundary**
+- [x] **Step 4: Build navigation headers and responsive layouts for Client and Dietitian roles**
+- [x] **Step 5: Verify build succeeds**
+- [x] **Step 6: Commit:** `git commit -m "feat(web): scaffold next.js 16 app router and design system"`
 
 #### Task 5.2: Client Marketplace & Escrow Checkout Flow
 **Files:**
@@ -396,12 +396,12 @@
 - Consumes: TanStack Query, `@diety/validation`, Backend API REST
 - Produces: Intake form with calorie/macro targets, proposal evaluation cards, escrow payment simulator
 
-- [ ] **Step 1: Build multi-step client health intake form with React Hook Form and Zod**
-- [ ] **Step 2: Build Proposal comparison dashboard displaying Dietitian level badges and ratings**
-- [ ] **Step 3: Build Escrow checkout milestone breakdown card**
-- [ ] **Step 4: Connect mutations to Backend API `/api/v1/marketplace`**
-- [ ] **Step 5: Verify component rendering and form validation in tests**
-- [ ] **Step 6: Commit:** `git commit -m "feat(web): implement client intake form and proposal review flow"`
+- [x] **Step 1: Build multi-step client health intake form with React Hook Form and Zod**
+- [x] **Step 2: Build Proposal comparison dashboard displaying Dietitian level badges and ratings**
+- [x] **Step 3: Build Escrow checkout milestone breakdown card**
+- [x] **Step 4: Connect mutations to Backend API `/api/v1/marketplace`**
+- [x] **Step 5: Verify component rendering and form validation in tests**
+- [x] **Step 6: Commit:** `git commit -m "feat(web): implement client intake form and proposal review flow"`
 
 #### Task 5.3: Dietitian Verification Portal & AI Simulation Interface
 **Files:**
@@ -414,11 +414,11 @@
 - Consumes: Backend AI Simulation API endpoints
 - Produces: Document upload zone (PDF degrees/licenses) and interactive AI patient chat session
 
-- [ ] **Step 1: Build credential upload form with drag-and-drop PDF preview**
-- [ ] **Step 2: Build interactive AI patient simulation chat console with turn counter**
-- [ ] **Step 3: Connect real-time streaming dialogue to Backend `/api/v1/identity/simulation`**
-- [ ] **Step 4: Build final assessment submission form with live rubric feedback display**
-- [ ] **Step 5: Commit:** `git commit -m "feat(web): implement dietitian verification portal and ai simulation exam"`
+- [x] **Step 1: Build credential upload form with drag-and-drop PDF preview**
+- [x] **Step 2: Build interactive AI patient simulation chat console with turn counter**
+- [x] **Step 3: Connect real-time streaming dialogue to Backend `/api/v1/identity/simulation`**
+- [x] **Step 4: Build final assessment submission form with live rubric feedback display**
+- [x] **Step 5: Commit:** `git commit -m "feat(web): implement dietitian verification portal and ai simulation exam"`
 
 #### Task 5.4: In-Browser WebRTC Consultation Room
 **Files:**
@@ -430,11 +430,11 @@
 - Consumes: `simple-peer`, `socket.io-client`, Google STUN
 - Produces: Split-screen video feed, audio/video toggle controls, 15-minute attendance timer
 
-- [ ] **Step 1: Implement `useWebRTC` hook managing PeerConnection, media streams, and ICE candidates**
-- [ ] **Step 2: Build responsive video grid with picture-in-picture local preview**
-- [ ] **Step 3: Implement 60-second attendance pinging to backend signaling gateway**
-- [ ] **Step 4: Build consultation completion card with digital signature trigger**
-- [ ] **Step 5: Commit:** `git commit -m "feat(web): implement in-browser webrtc video consultation room"`
+- [x] **Step 1: Implement `useWebRTC` hook managing PeerConnection, media streams, and ICE candidates**
+- [x] **Step 2: Build responsive video grid with picture-in-picture local preview**
+- [x] **Step 3: Implement 60-second attendance pinging to backend signaling gateway**
+- [x] **Step 4: Build consultation completion card with digital signature trigger**
+- [x] **Step 5: Commit:** `git commit -m "feat(web): implement in-browser webrtc video consultation room"`
 
 ---
 
