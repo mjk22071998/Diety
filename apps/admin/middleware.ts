@@ -75,7 +75,7 @@ export function isAuthorizedRole(role?: string): boolean {
 }
 
 /**
- * Edge security middleware for Admin & Tribunal Console (port 3002).
+ * Edge security middleware for Admin & Tribunal Console (port 3302).
  */
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

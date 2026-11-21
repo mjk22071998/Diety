@@ -26,7 +26,7 @@ export interface UseWebRTCResult {
 }
 
 const DEFAULT_SIGNALING_URL =
-  process.env.NEXT_PUBLIC_SIGNALING_URL || "ws://localhost:3001/signaling";
+  process.env.NEXT_PUBLIC_SIGNALING_URL || "ws://localhost:3301/signaling";
 
 const DEFAULT_ICE_SERVERS: RTCIceServer[] = [
   { urls: "stun:stun.l.google.com:19302" },

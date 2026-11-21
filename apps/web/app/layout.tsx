@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   description:
     "Healthcare freelance marketplace — connect clinicians, dietitians, and healthcare professionals.",
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"
+    process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3300"
   ),
 };
 

@@ -61,7 +61,7 @@ describe("Native WebRTC Telehealth Consultation (Task 7.2)", () => {
         useNativeWebRTC({
           roomId: "room-test-123",
           participantId: "client-alex",
-          signalingUrl: "ws://localhost:3001/signaling",
+          signalingUrl: "ws://localhost:3301/signaling",
         })
       );
 

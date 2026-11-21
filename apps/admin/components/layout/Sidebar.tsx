@@ -67,7 +67,7 @@ export function Sidebar() {
                 Diety Tribunal
               </div>
               <div className="text-[10px] text-slate-400 font-mono">
-                Port 3002 • Node v1.0
+                Port 3302 • Node v1.0
               </div>
             </div>
           </div>

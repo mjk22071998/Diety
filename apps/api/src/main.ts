@@ -11,7 +11,7 @@ async function bootstrap() {
     }
   });
 
-  const port = process.env.PORT || 3001;
+  const port = process.env.PORT || 3301;
   await app.listen(port);
   console.log(`[Diety API] NestJS Backend listening on http://localhost:${port}`);
   console.log(`[Diety API] WebRTC Signaling Gateway active on ws://localhost:${port}/signaling`);

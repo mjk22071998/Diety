@@ -31,7 +31,7 @@ export interface UseNativeWebRTCResult {
 }
 
 const DEFAULT_SIGNALING_URL =
-  process.env.EXPO_PUBLIC_SIGNALING_URL || "ws://localhost:3001/signaling";
+  process.env.EXPO_PUBLIC_SIGNALING_URL || "ws://localhost:3301/signaling";
 
 const DEFAULT_ICE_SERVERS = [
   { urls: "stun:stun.l.google.com:19302" },

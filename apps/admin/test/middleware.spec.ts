@@ -30,17 +30,17 @@ describe("Role Authorization Utility", () => {
 
 describe("Token Extraction", () => {
   it("extracts token from cookie or authorization header", () => {
-    const cookieReq = new NextRequest(new URL("http://localhost:3002/"), {
+    const cookieReq = new NextRequest(new URL("http://localhost:3302/"), {
       headers: { cookie: "diety_token=cookie-token-123" },
     });
     expect(extractToken(cookieReq)).toBe("cookie-token-123");
 
-    const authReq = new NextRequest(new URL("http://localhost:3002/"), {
+    const authReq = new NextRequest(new URL("http://localhost:3302/"), {
       headers: { authorization: "Bearer header-token-456" },
     });
     expect(extractToken(authReq)).toBe("header-token-456");
 
-    const emptyReq = new NextRequest(new URL("http://localhost:3002/"));
+    const emptyReq = new NextRequest(new URL("http://localhost:3302/"));
     expect(extractToken(emptyReq)).toBeNull();
   });
 });
@@ -65,7 +65,7 @@ describe("JWT Payload Parsing", () => {
 });
 
 describe("Edge Security Middleware", () => {
-  const baseUrl = "http://localhost:3002";
+  const baseUrl = "http://localhost:3302";
 
   it("allows unauthenticated access to /login without redirection", () => {
     const request = new NextRequest(new URL("/login", baseUrl));

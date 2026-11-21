@@ -43,9 +43,9 @@ Managed with **Turborepo** and **pnpm** workspaces:
 ```
 diety/
 ├── apps/
-│   ├── api/                     # NestJS 12 Hexagonal Backend API & WebSocket Signaling (:3001)
-│   ├── web/                     # Next.js 16 App Router Client & Dietitian Web Portal (:3000)
-│   ├── admin/                   # Next.js 16 App Router Isolated Admin & Tribunal Console (:3002)
+│   ├── api/                     # NestJS 12 Hexagonal Backend API & WebSocket Signaling (:3301)
+│   ├── web/                     # Next.js 16 App Router Client & Dietitian Web Portal (:3300)
+│   ├── admin/                   # Next.js 16 App Router Isolated Admin & Tribunal Console (:3302)
 │   └── mobile/                  # Expo SDK 58 / React Native 0.88 Cross-Platform Mobile App (:8081)
 ├── packages/
 │   ├── types/                   # @diety/types: Domain Enums, Interfaces, DTOs, Event Payloads

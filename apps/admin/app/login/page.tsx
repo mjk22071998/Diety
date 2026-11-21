@@ -69,7 +69,7 @@ export default function LoginPage() {
               Diety Admin & Tribunal
             </h1>
             <p className="text-xs text-slate-400 font-mono">
-              Port 3002 • Cryptographic Enclave
+              Port 3302 • Cryptographic Enclave
             </p>
           </div>
         </div>

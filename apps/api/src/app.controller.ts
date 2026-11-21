@@ -29,7 +29,7 @@ export class AppController {
   public getMetadata() {
     return {
       name: 'Diety API',
-      port: 3001,
+      port: 3301,
       environment: process.env.NODE_ENV || 'development',
       signalingNamespace: '/signaling'
     };

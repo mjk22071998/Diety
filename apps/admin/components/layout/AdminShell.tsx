@@ -29,7 +29,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             </span>
             <span className="text-slate-600">•</span>
             <span className="text-[11px] font-mono text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">
-              PORT 3002
+              PORT 3302
             </span>
           </div>
           <div className="flex items-center gap-4 text-xs font-mono text-slate-400">
