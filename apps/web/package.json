@@ -9,12 +9,17 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@diety/types": "workspace:^",
+    "@diety/validation": "workspace:^",
+    "@hookform/resolvers": "^7.0.8",
     "@tanstack/react-query": "^5.108.2",
     "lucide-react": "^1.77.0",
     "next": "^16.4.6",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "react-hook-form": "^7.92.0",
     "socket.io-client": "^4.8.4",
+    "zod": "^4.6.7",
     "zustand": "^5.1.0"
   },
   "devDependencies": {
