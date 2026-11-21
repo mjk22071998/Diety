@@ -451,11 +451,11 @@
 - Consumes: Next.js 16, `@tanstack/react-table`, Recharts 3
 - Produces: Isolated admin portal with MFA guards and administrative layout
 
-- [ ] **Step 1: Scaffold dedicated Admin Next.js 16 application on port 3002**
-- [ ] **Step 2: Implement edge middleware enforcing `ADMIN` or `ARBITRATOR` roles**
-- [ ] **Step 3: Build platform overview dashboard with Recharts financial KPIs (GMV, Escrow locked)**
-- [ ] **Step 4: Verify build succeeds**
-- [ ] **Step 5: Commit:** `git commit -m "feat(admin): scaffold isolated admin console and analytics dashboard"`
+- [x] **Step 1: Scaffold dedicated Admin Next.js 16 application on port 3002**
+- [x] **Step 2: Implement edge middleware enforcing `ADMIN` or `ARBITRATOR` roles**
+- [x] **Step 3: Build platform overview dashboard with Recharts financial KPIs (GMV, Escrow locked)**
+- [x] **Step 4: Verify build succeeds**
+- [x] **Step 5: Commit:** `git commit -m "feat(admin): scaffold isolated admin console and analytics dashboard"`
 
 #### Task 6.2: Credential Audit Queue & Dispute Tribunal Court
 **Files:**
@@ -468,12 +468,12 @@
 - Consumes: TanStack Table 9, Backend Tribunal API
 - Produces: Filterable verification queue with PDF viewer and split-screen dispute arbitration slider
 
-- [ ] **Step 1: Build virtualized credential table with status filters (PENDING, APPROVED, REJECTED)**
-- [ ] **Step 2: Build split-screen dispute tribunal view: Client Evidence vs Dietitian Evidence**
-- [ ] **Step 3: Build interactive pro-rata escrow slider (0% to 100% split)**
-- [ ] **Step 4: Build Disciplinary Strike trigger with mandatory arbitrator justification notes**
-- [ ] **Step 5: Connect arbitration decision submission to Backend API**
-- [ ] **Step 6: Commit:** `git commit -m "feat(admin): implement credential audit queue and dispute arbitration console"`
+- [x] **Step 1: Build virtualized credential table with status filters (PENDING, APPROVED, REJECTED)**
+- [x] **Step 2: Build split-screen dispute tribunal view: Client Evidence vs Dietitian Evidence**
+- [x] **Step 3: Build interactive pro-rata escrow slider (0% to 100% split)**
+- [x] **Step 4: Build Disciplinary Strike trigger with mandatory arbitrator justification notes**
+- [x] **Step 5: Connect arbitration decision submission to Backend API**
+- [x] **Step 6: Commit:** `git commit -m "feat(admin): implement credential audit queue and dispute arbitration console"`
 
 ---
 
