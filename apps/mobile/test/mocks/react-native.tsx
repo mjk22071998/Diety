@@ -21,7 +21,7 @@ export const View = React.forwardRef<any, any>(
 );
 View.displayName = "View";
 
-export const Text = React.forwardRef<any, any>(({ children, testID, style, ...props }, ref) => (
+export const Text = React.forwardRef<any, any>(({ children, testID, style, numberOfLines, ...props }, ref) => (
   <span ref={ref} data-testid={testID} style={flattenStyle(style)} {...props}>
     {children}
   </span>
@@ -43,10 +43,11 @@ export const ScrollView = React.forwardRef<any, any>(
 ScrollView.displayName = "ScrollView";
 
 export const TouchableOpacity = React.forwardRef<any, any>(
-  ({ children, testID, onPress, style, activeOpacity, ...props }, ref) => (
+  ({ children, testID, onPress, style, activeOpacity, accessibilityLabel, ...props }, ref) => (
     <button
       ref={ref}
       data-testid={testID}
+      aria-label={accessibilityLabel}
       onClick={onPress}
       style={flattenStyle(style)}
       {...props}

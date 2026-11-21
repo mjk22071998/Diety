@@ -88,5 +88,11 @@ vi.mock("lucide-react-native", () => {
     LogOut: IconMock,
     AlertCircle: IconMock,
     ArrowRight: IconMock,
+    ArrowLeft: IconMock,
+    Mic: IconMock,
+    MicOff: IconMock,
+    VideoOff: IconMock,
+    PhoneOff: IconMock,
+    RefreshCw: IconMock,
   };
 });

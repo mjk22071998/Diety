@@ -23,6 +23,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "."),
       "react-native": path.resolve(__dirname, "./test/mocks/react-native.tsx"),
       "react-native-svg": path.resolve(__dirname, "./test/mocks/react-native-svg.tsx"),
+      "react-native-webrtc": path.resolve(__dirname, "./test/mocks/react-native-webrtc.tsx"),
     },
   },
 });
