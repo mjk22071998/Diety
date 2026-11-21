@@ -101,7 +101,7 @@ export class WebRtcSignalingGateway implements OnGatewayConnection, OnGatewayDis
 
   @SubscribeMessage('heartbeat')
   public async handleHeartbeat(
-    @ConnectedSocket() client: Socket,
+    @ConnectedSocket() _client: Socket,
     @MessageBody() data: HeartbeatPayload
   ): Promise<{ acknowledged: boolean; isVerified: boolean }> {
     const result = await this.attendanceService.processHeartbeat(

@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ResolveDisputeUseCase } from '../../../src/bounded-contexts/tribunal/application/use-cases/resolve-dispute.use-case';
 import { IDisputeTicketRepositoryPort } from '../../../src/bounded-contexts/tribunal/application/ports/dispute-ticket-repository.port';
 import { IDietitianLevelRepositoryPort } from '../../../src/bounded-contexts/reputation/application/ports/dietitian-level-repository.port';
-import { DisputeTicket, RulingOutcome, DisputeStatus } from '../../../src/bounded-contexts/tribunal/domain/entities/dispute-ticket.entity';
+import { DisputeTicket, RulingOutcome } from '../../../src/bounded-contexts/tribunal/domain/entities/dispute-ticket.entity';
 import { DietitianLevelProfile, DietitianTier } from '../../../src/bounded-contexts/reputation/domain/entities/dietitian-level.entity';
 import { RatingScore } from '../../../src/bounded-contexts/shared/domain/value-objects/rating-score.vo';
 import { Money } from '../../../src/bounded-contexts/shared/domain/value-objects/money.vo';
@@ -147,7 +147,7 @@ describe('Task 4.4: Disciplinary Tribunal & Dispute Resolution API (Pure TDD)', 
       useCase.execute({
         disputeId: 'non-existent-dispute',
         arbitratorId: 'arb-1',
-        outcome: RulingOutcome.DISMISS_DISPUTE_RELEASE_TO_DIETITIAN,
+        outcome: RulingOutcome.DISMISS_UNFOUNDED,
         justification: 'Case dismissed',
         assignStrikeToRespondent: false
       })
