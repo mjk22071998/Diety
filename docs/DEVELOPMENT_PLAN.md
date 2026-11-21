@@ -527,13 +527,13 @@
 - Consumes: Web Portal (:3000), Admin Console (:3002), Backend API (:3001)
 - Produces: Automated proof of the end-to-end user lifecycle
 
-- [ ] **Step 1: Configure Playwright multi-browser test harness**
-- [ ] **Step 2: Test Flow A: Dietitian registration $\rightarrow$ AI clinical exam passing $\rightarrow$ Level assignment**
-- [ ] **Step 3: Test Flow B: Client posts requirement $\rightarrow$ Dietitian bids $\rightarrow$ Escrow payment funded**
-- [ ] **Step 4: Test Flow C: WebRTC call conducted $\rightarrow$ Meal plan delivered $\rightarrow$ 72h clearing release**
-- [ ] **Step 5: Test Flow D: Dispute raised $\rightarrow$ Escrow frozen $\rightarrow$ Arbitrator splits funds and issues strike**
-- [ ] **Step 6: Run full Playwright test suite and verify 100% pass**
-- [ ] **Step 7: Commit:** `git commit -m "test(e2e): implement comprehensive multi-role playwright e2e test suite"`
+- [x] **Step 1: Configure Playwright multi-browser test harness**
+- [x] **Step 2: Test Flow A: Dietitian registration $\rightarrow$ AI clinical exam passing $\rightarrow$ Level assignment**
+- [x] **Step 3: Test Flow B: Client posts requirement $\rightarrow$ Dietitian bids $\rightarrow$ Escrow payment funded**
+- [x] **Step 4: Test Flow C: WebRTC call conducted $\rightarrow$ Meal plan delivered $\rightarrow$ 72h clearing release**
+- [x] **Step 5: Test Flow D: Dispute raised $\rightarrow$ Escrow frozen $\rightarrow$ Arbitrator splits funds and issues strike**
+- [x] **Step 6: Run full Playwright test suite and verify 100% pass**
+- [x] **Step 7: Commit:** `git commit -m "test(e2e): implement comprehensive multi-role playwright e2e test suite"`
 
 ---
 
